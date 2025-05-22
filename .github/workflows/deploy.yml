@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 env:
@@ -65,6 +65,9 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Lint
+        run: npm run lint
+
       # Add your test commands here
       # - name: Run tests
       #   run: npm test
@@ -107,4 +110,4 @@ jobs:
         run: npx cdk deploy --require-approval never
         env:
           CDK_DEPLOY_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
-          CDK_DEPLOY_REGION: ${{ env.AWS_REGION }} 
+          CDK_DEPLOY_REGION: ${{ env.AWS_REGION }}
