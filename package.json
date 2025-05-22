@@ -2,13 +2,18 @@
   "name": "blog",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "cdk": "cdk"
   },
   "dependencies": {
+    "@react-router/architect": "^7.6.0",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",
     "isbot": "^5.1.27",
@@ -22,6 +27,9 @@
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "aws-cdk": "^2.1016.1",
+    "aws-cdk-lib": "^2.197.0",
+    "constructs": "^10.4.2",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
     "vite": "^6.3.3",
