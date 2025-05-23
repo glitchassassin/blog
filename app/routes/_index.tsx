@@ -1,8 +1,8 @@
+import { notes } from 'virtual:notes-metadata'
 import { BlogPost } from '#app/components/BlogPost'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
 import { PageLayout } from '#app/components/PageLayout'
-import { blogPosts, type BlogPostData } from '#app/data/blogPosts'
 import { type Route } from './+types/_index'
 
 export function meta({}: Route.MetaArgs) {
@@ -22,15 +22,15 @@ export default function Home() {
 
 			{/* Sample Posts */}
 			<main className="space-y-12">
-				{blogPosts.map((post: BlogPostData) => (
+				{notes.map((post) => (
 					<BlogPost
-						key={post.id}
-						date={post.date}
-						category={post.category}
-						title={post.title}
-						excerpt={post.excerpt}
-						tags={post.tags}
-						href={post.href}
+						key={post.filePath}
+						date={post.date ?? ''}
+						category={post.category ?? ''}
+						title={post.title ?? ''}
+						excerpt={post.excerpt ?? ''}
+						tags={post.tags ?? []}
+						href={`/notes/${post.slug}`}
 					/>
 				))}
 			</main>

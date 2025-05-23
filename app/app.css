@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'highlight.js/styles/github-dark.css' layer(components);
 
 @theme {
 	--font-sans:
@@ -13,4 +14,74 @@ body {
 	@media (prefers-color-scheme: dark) {
 		color-scheme: dark;
 	}
+}
+
+/* Custom styles for syntax highlighting in blog posts */
+.hljs {
+	@apply my-4 rounded-lg p-4;
+}
+
+/* Override highlight.js styles to match our theme */
+@media (prefers-color-scheme: light) {
+	.hljs {
+		/* background: var(--color-amber-50) !important; */
+		color: #24292e !important;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.hljs {
+		/* background: #1a1a1a !important; */
+		color: #e1e4e8 !important;
+	}
+}
+
+/* Custom prose styles for blog posts */
+.prose {
+	@apply max-w-none;
+}
+
+.prose h1 {
+	@apply mb-6 text-3xl font-bold text-zinc-900 dark:text-zinc-100;
+}
+
+.prose h2 {
+	@apply mt-8 mb-4 text-2xl font-semibold text-zinc-800 dark:text-zinc-200;
+}
+
+.prose h3 {
+	@apply mt-6 mb-3 text-xl font-medium text-zinc-700 dark:text-zinc-300;
+}
+
+.prose p {
+	@apply mb-4 leading-relaxed text-zinc-700 dark:text-zinc-300;
+}
+
+.prose ul,
+.prose ol {
+	@apply mb-4 pl-6;
+}
+
+.prose li {
+	@apply mb-1 text-zinc-700 dark:text-zinc-300;
+}
+
+.prose pre {
+	@apply overflow-x-auto rounded-lg;
+}
+
+.prose code {
+	@apply rounded bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800;
+}
+
+.prose pre code {
+	@apply m-4 border-2 border-amber-300/70 bg-amber-50/70 p-4 shadow-lg dark:bg-zinc-900/70;
+}
+
+.prose blockquote {
+	@apply border-l-4 border-amber-500 pl-4 text-zinc-600 italic dark:text-zinc-400;
+}
+
+.prose a {
+	@apply text-amber-600 hover:underline dark:text-amber-400;
 }

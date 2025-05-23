@@ -38,7 +38,9 @@ jobs:
             ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npx patch-package
 
       - name: Build
         run: npm run build
@@ -80,7 +82,9 @@ jobs:
             ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npx patch-package
 
       - name: Type check
         run: npm run typecheck
@@ -126,7 +130,9 @@ jobs:
             ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npx patch-package
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -178,7 +184,9 @@ jobs:
             ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npx patch-package
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

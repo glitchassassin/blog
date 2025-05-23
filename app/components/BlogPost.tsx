@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 interface BlogPostProps {
 	date: string
 	category: string
@@ -47,9 +49,9 @@ export function BlogPost({
 	return (
 		<article className="border-l-2 border-amber-300 pl-6 dark:border-zinc-600">
 			{href ? (
-				<a href={href} className="block">
+				<Link to={href} className="block">
 					{PostContent}
-				</a>
+				</Link>
 			) : (
 				PostContent
 			)}

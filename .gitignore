@@ -5,6 +5,9 @@
 /.react-router/
 /build/
 
+# Generated files
+/app/generated/
+
 # Playwright
 /test-results/
 /playwright-report/
