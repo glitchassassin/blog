@@ -33,8 +33,8 @@ Content is managed through GitHub, with MDX support for rich content creation.
 
 ### User Interface
 
-- [ ] Responsive design
-- [ ] Dark/Light mode
+- [x] Responsive design
+- [x] Dark/Light mode
 - [ ] Search functionality
 - [ ] Category/Tag system
 - [ ] Related posts suggestions
