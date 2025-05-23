@@ -13,7 +13,9 @@
     "typecheck": "react-router typegen && tsc",
     "cdk": "cdk",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test:e2e": "playwright test --ui",
+    "test:e2e:ci": "playwright test"
   },
   "dependencies": {
     "@react-router/architect": "^7.6.0",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@epic-web/config": "^1.21.0",
+    "@playwright/test": "^1.52.0",
     "@react-router/dev": "^7.5.3",
     "@tailwindcss/vite": "^4.1.4",
     "@types/node": "^20",

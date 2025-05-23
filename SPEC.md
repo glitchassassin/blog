@@ -10,7 +10,7 @@ Content is managed through GitHub, with MDX support for rich content creation.
 - **Frontend Framework**: React Router
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Content**: MDX
-- **Testing**: Vitest
+- **Testing**: Playwright (E2E), Vitest
 - **Linting/Formatting**: @epic-web/config defaults
 - **Infrastructure**:
   - AWS (Lambda, S3, CloudFront)
@@ -64,7 +64,7 @@ Content is managed through GitHub, with MDX support for rich content creation.
 - [x] TypeScript support
 - [x] ESLint configuration
 - [x] Prettier configuration
-- [~] Automated testing
+- [x] Automated testing
 - [x] CI/CD pipeline
 - [ ] Automated dependency updates
 - [ ] Development documentation
