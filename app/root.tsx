@@ -11,6 +11,54 @@ import { type Route } from './+types/root'
 import './app.css'
 
 export const links: Route.LinksFunction = () => [
+	// Standard favicon
+	{ rel: 'icon', href: '/assets/favicon.ico' },
+
+	// PNG favicons for different sizes
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '16x16',
+		href: '/assets/favicon-16x16.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '32x32',
+		href: '/assets/favicon-32x32.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '48x48',
+		href: '/assets/favicon-48x48.png',
+	},
+
+	// Apple Touch Icon
+	{
+		rel: 'apple-touch-icon',
+		sizes: '180x180',
+		href: '/assets/apple-touch-icon.png',
+	},
+
+	// Android Chrome icons
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '192x192',
+		href: '/assets/android-chrome-192x192.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '512x512',
+		href: '/assets/android-chrome-512x512.png',
+	},
+
+	// Web App Manifest
+	{ rel: 'manifest', href: '/assets/site.webmanifest' },
+
+	// Fonts
 	{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
 	{
 		rel: 'preconnect',
@@ -29,6 +77,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta name="theme-color" content="#f59e0b" />
+				<meta name="msapplication-TileColor" content="#f59e0b" />
 				<Meta />
 				<Links />
 			</head>
