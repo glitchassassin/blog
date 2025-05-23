@@ -92,6 +92,7 @@ export class CdkStack extends cdk.Stack {
 			destinationKeyPrefix: 'assets',
 			distribution,
 			distributionPaths: ['/assets/*'],
+			memoryLimit: 256,
 		})
 
 		new cdk.CfnOutput(this, 'DistributionDomainName', {
