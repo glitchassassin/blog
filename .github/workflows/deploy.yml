@@ -27,6 +27,16 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key:
+            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
+            'patches/**') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
       - name: Install dependencies
         run: npm ci
 
@@ -58,6 +68,16 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key:
+            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
+            'patches/**') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
         run: npm ci
@@ -94,6 +114,16 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key:
+            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
+            'patches/**') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
         run: npm ci
@@ -136,6 +166,16 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key:
+            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
+            'patches/**') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
         run: npm ci
