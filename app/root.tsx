@@ -10,6 +10,14 @@ import {
 import { type Route } from './+types/root'
 import './app.css'
 
+export const meta: Route.MetaFunction = () => [
+	{ title: 'Field Notes' },
+	{
+		name: 'description',
+		content: 'The observations and experiments of Jon Winsley',
+	},
+]
+
 export const links: Route.LinksFunction = () => [
 	// Standard favicon
 	{ rel: 'icon', href: '/assets/favicon.ico' },

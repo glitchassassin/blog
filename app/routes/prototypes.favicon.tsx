@@ -118,7 +118,6 @@ export default function Prototype() {
 		// Canvas starts with transparent background by default
 		// No need to fill background - keeping it transparent
 
-		const goldenRatio = 1.618
 		const ratio = 11 / 8.5
 		const height = canvas.height * 0.8
 		const width = height / ratio

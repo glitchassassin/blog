@@ -1,7 +1,6 @@
 import { Outlet, useLoaderData } from 'react-router'
 import { notesBySlug } from 'virtual:notes-metadata'
 import { Footer } from '#app/components/Footer'
-import { Header } from '#app/components/Header'
 import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
 import { type NoteMetadata } from '#app/plugins/vite-notes-metadata'
