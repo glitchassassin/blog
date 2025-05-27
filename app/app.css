@@ -19,26 +19,6 @@ body {
 	}
 }
 
-/* Custom styles for syntax highlighting in blog posts */
-.hljs {
-	@apply my-4 rounded-lg p-4;
-}
-
-/* Override highlight.js styles to match our theme */
-@media (prefers-color-scheme: light) {
-	.hljs {
-		/* background: var(--color-amber-50) !important; */
-		color: #24292e !important;
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	.hljs {
-		/* background: #1a1a1a !important; */
-		color: #e1e4e8 !important;
-	}
-}
-
 /* Custom prose styles for blog posts */
 .prose {
 	@apply max-w-none;
@@ -62,11 +42,53 @@ body {
 
 .prose ul,
 .prose ol {
-	@apply mb-4 pl-6;
+	@apply mb-4 space-y-2 pl-6;
 }
 
 .prose li {
-	@apply mb-1 text-zinc-700 dark:text-zinc-300;
+	@apply leading-relaxed text-zinc-700 dark:text-zinc-300;
+}
+
+.prose ul li {
+	@apply relative;
+}
+
+.prose ul li::before {
+	@apply absolute top-2 -left-4 h-1.5 w-1.5 rounded-full bg-amber-500 dark:bg-amber-400;
+	content: '';
+}
+
+.prose ol li {
+	@apply relative;
+}
+
+.prose ol {
+	@apply list-none;
+	counter-reset: list-counter;
+}
+
+.prose ol li {
+	counter-increment: list-counter;
+}
+
+.prose ol li::before {
+	@apply absolute top-0 -left-6 text-sm/7 font-medium text-amber-500 dark:text-amber-400;
+	content: counter(list-counter) '.';
+}
+
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+	@apply mt-2 mb-0 pl-4;
+}
+
+.prose li p {
+	@apply mb-2;
+}
+
+.prose li p:last-child {
+	@apply mb-0;
 }
 
 .prose pre {
@@ -74,11 +96,11 @@ body {
 }
 
 .prose code {
-	@apply rounded bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800;
+	@apply rounded bg-amber-100 px-1 py-0.5 text-sm dark:bg-zinc-800;
 }
 
 .prose pre code {
-	@apply m-4 border-2 border-amber-300/70 bg-amber-50/70 p-4 shadow-lg dark:bg-zinc-900/70;
+	@apply m-4 block rounded-lg border-2 border-amber-300/70 bg-amber-50/70 p-4 text-zinc-700 shadow-lg dark:bg-zinc-900/70 dark:text-zinc-300;
 }
 
 .prose blockquote {
@@ -87,6 +109,23 @@ body {
 
 .prose a {
 	@apply text-amber-600 hover:underline dark:text-amber-400;
+}
+
+.prose img {
+	@apply mx-auto my-6 border border-amber-200/50 shadow-md dark:border-zinc-700/50;
+	@apply h-auto max-w-full;
+}
+
+.prose figure {
+	@apply my-8 text-center;
+}
+
+.prose figure img {
+	@apply mx-auto mb-3;
+}
+
+.prose figcaption {
+	@apply text-sm text-zinc-600 italic dark:text-zinc-400;
 }
 
 @theme inline {

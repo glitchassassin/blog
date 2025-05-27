@@ -43,7 +43,9 @@ export function notesMetadataPlugin() {
 
 				// Extract the slug from filename (e.g., notes.entropy-code-thermodynamics.mdx -> entropy-code-thermodynamics)
 				const filename = path.basename(filePath, '.mdx')
-				const slug = filename.replace('notes.', '')
+				const slug = filename
+					.replace(/\._[^.]+\./, '.') // remove layout segments
+					.replace('notes.', '') // remove notes prefix
 
 				// Validate frontmatter with Zod
 				const frontmatterResult = FrontmatterSchema.safeParse(frontmatter)
