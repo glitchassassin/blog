@@ -5,10 +5,20 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useLoaderData,
 } from 'react-router'
 
 import { type Route } from './+types/root'
 import './app.css'
+import { ClientHintCheck, getHints } from './utils/client-hints'
+
+export async function loader({ request }: Route.LoaderArgs) {
+	return {
+		requestInfo: {
+			hints: getHints(request),
+		},
+	}
+}
 
 export const meta: Route.MetaFunction = () => [
 	{ title: 'Field Notes' },
@@ -79,10 +89,17 @@ export const links: Route.LinksFunction = () => [
 	},
 ]
 
-export function Layout({ children }: { children: React.ReactNode }) {
+function Document({
+	children,
+	theme = 'light',
+}: {
+	children: React.ReactNode
+	theme?: string
+}) {
 	return (
-		<html lang="en">
+		<html lang="en" className={theme}>
 			<head>
+				<ClientHintCheck />
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="theme-color" content="#f59e0b" />
@@ -100,7 +117,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-	return <Outlet />
+	const data = useLoaderData<typeof loader>()
+	const theme = data.requestInfo.hints.theme
+
+	return (
+		<Document theme={theme}>
+			<Outlet />
+		</Document>
+	)
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
