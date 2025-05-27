@@ -1,0 +1,73 @@
+@media print {
+	.cvContainer {
+		max-width: none !important;
+		margin: 0 !important;
+		padding: 0.5in !important;
+		font-size: 11pt !important;
+		line-height: 1.3 !important;
+		color: black !important;
+		background: white !important;
+	}
+
+	.cvContainer h1 {
+		font-size: 18pt !important;
+		margin-bottom: 8pt !important;
+	}
+
+	.cvContainer h2 {
+		font-size: 14pt !important;
+		margin-bottom: 10pt !important;
+		margin-top: 16pt !important;
+		page-break-after: avoid;
+	}
+
+	.cvContainer h3 {
+		font-size: 12pt !important;
+		margin-bottom: 4pt !important;
+		page-break-after: avoid;
+	}
+
+	.cvContainer p {
+		margin-bottom: 6pt !important;
+	}
+
+	.cvContainer :global(.space-y-6) > * + * {
+		margin-top: 12pt !important;
+	}
+
+	.cvContainer :global(.space-y-4) > * + * {
+		margin-top: 8pt !important;
+	}
+
+	.cvContainer :global(.grid) {
+		display: block !important;
+	}
+
+	.cvContainer :global(.grid) > * {
+		margin-bottom: 8pt !important;
+	}
+
+	/* Education section cards - remove border and reduce padding */
+	.cvContainer :global(.rounded-lg) {
+		border: none !important;
+		background: transparent !important;
+		padding: 4pt !important;
+	}
+
+	/* Prevent page breaks inside experience items */
+	.cvContainer :global(.border-l-4) {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	/* Ensure sections don't break awkwardly */
+	.cvContainer section {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	/* Hide background images and decorative elements */
+	.cvContainer :global(.absolute) {
+		display: none !important;
+	}
+}

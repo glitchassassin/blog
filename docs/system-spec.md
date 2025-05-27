@@ -30,7 +30,7 @@ Content is managed through GitHub, with MDX support for rich content creation.
 - [ ] Table of contents generation
 - [ ] Reading time estimates
 - [x] Portfolio section
-- [ ] CV page
+- [x] CV page
 
 ### User Interface
 

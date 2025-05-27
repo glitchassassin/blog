@@ -244,3 +244,67 @@ body {
 		@apply bg-background text-foreground;
 	}
 }
+
+/* Print Styles */
+@media print {
+	/* Reset colors for print */
+	* {
+		color: black !important;
+		background: white !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	/* Hide navigation and decorative elements */
+	header nav,
+	.print\\:hidden {
+		display: none !important;
+	}
+
+	/* Optimize typography for print */
+	body {
+		font-size: 12pt !important;
+		line-height: 1.4 !important;
+	}
+
+	h1 {
+		font-size: 18pt !important;
+		page-break-after: avoid;
+	}
+
+	h2 {
+		font-size: 16pt !important;
+		page-break-after: avoid;
+		margin-top: 20pt !important;
+	}
+
+	h3 {
+		font-size: 14pt !important;
+		page-break-after: avoid;
+	}
+
+	/* Ensure links are readable in print */
+	a {
+		text-decoration: underline !important;
+		color: black !important;
+	}
+
+	/* Page breaks */
+	.page-break-before {
+		page-break-before: always;
+	}
+
+	.page-break-after {
+		page-break-after: always;
+	}
+
+	.page-break-inside-avoid {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	/* Margins for print */
+	@page {
+		margin: 0.5in;
+	}
+}

@@ -1,13 +1,24 @@
 import { type ReactNode } from 'react'
+import { cn } from '#app/lib/utils'
 
 interface PageLayoutProps {
 	children: ReactNode
 	theme?: string
+	className?: string
 }
 
-export function PageLayout({ children, theme = 'botany' }: PageLayoutProps) {
+export function PageLayout({
+	children,
+	theme = 'botany',
+	className,
+}: PageLayoutProps) {
 	return (
-		<div className="relative min-h-screen bg-amber-50 transition-colors duration-300 dark:bg-zinc-900">
+		<div
+			className={cn(
+				'relative min-h-screen bg-amber-50 px-6 py-12 transition-colors duration-300 dark:bg-zinc-900',
+				className,
+			)}
+		>
 			{/* Light mode background */}
 			<div
 				className={
@@ -32,9 +43,7 @@ export function PageLayout({ children, theme = 'botany' }: PageLayoutProps) {
 				}}
 			></div>
 
-			<div className="relative z-10 mx-auto max-w-4xl px-6 py-12">
-				{children}
-			</div>
+			<div className="relative z-10 mx-auto max-w-4xl">{children}</div>
 		</div>
 	)
 }

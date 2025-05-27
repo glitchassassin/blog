@@ -55,12 +55,12 @@ export function Header() {
 							The observations and experiments of Jon Winsley
 						</p>
 						<div className="mt-4 flex items-center gap-4 font-mono text-sm text-amber-700 dark:text-amber-300">
-							<a
-								href="/cv"
+							<Link
+								to="/curriculum-vitae"
 								className="font-medium transition-colors hover:text-amber-900 dark:hover:text-amber-100"
 							>
 								Curriculum Vitae
-							</a>
+							</Link>
 							<span>•</span>
 							<Link
 								to="/portfolio"
