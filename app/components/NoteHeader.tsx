@@ -4,19 +4,30 @@ import { slugify } from '#app/utils/slugify'
 
 interface NoteHeaderProps {
 	note: NoteMetadata
+	backLink?: {
+		url: string
+		label: string
+	}
 }
 
-export function NoteHeader({ note }: NoteHeaderProps) {
+export function NoteHeader({ note, backLink }: NoteHeaderProps) {
+	const defaultBackLink = {
+		url: '/',
+		label: 'Field Notes',
+	}
+
+	const activeBackLink = backLink || defaultBackLink
+
 	return (
 		<header className="mb-8 border-b border-amber-300 dark:border-zinc-700">
 			<div className="flex flex-col">
 				{/* Navigation breadcrumb */}
 				<div className="mb-4">
 					<Link
-						to="/"
+						to={activeBackLink.url}
 						className="font-mono text-sm text-amber-700 transition-colors hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-100"
 					>
-						← Field Notes
+						← {activeBackLink.label}
 					</Link>
 				</div>
 

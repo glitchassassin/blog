@@ -18,3 +18,13 @@ declare module 'virtual:notes-metadata' {
 	export const categorySlugToLabel: Record<string, string>
 	export const tagSlugToLabel: Record<string, string>
 }
+
+declare module 'virtual:portfolio-metadata' {
+	// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+	type PortfolioMetadata =
+		import('#app/plugins/vite-portfolio-metadata').PortfolioMetadata
+
+	// Exported data
+	export const portfolio: PortfolioMetadata[]
+	export const portfolioBySlug: Record<string, PortfolioMetadata>
+}

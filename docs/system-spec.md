@@ -24,12 +24,13 @@ Content is managed through GitHub, with MDX support for rich content creation.
 - [x] MDX support for rich content
 - [ ] Draft posts support
 - [ ] Scheduled posts
-- [ ] Series/Collections for related posts
 - [ ] Custom MDX components
 - [x] Code syntax highlighting
 - [ ] Image optimization and lazy loading
 - [ ] Table of contents generation
 - [ ] Reading time estimates
+- [x] Portfolio section
+- [ ] CV page
 
 ### User Interface
 

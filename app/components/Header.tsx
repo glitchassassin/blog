@@ -62,12 +62,12 @@ export function Header() {
 								Curriculum Vitae
 							</a>
 							<span>•</span>
-							<a
-								href="/portfolio"
+							<Link
+								to="/portfolio"
 								className="font-medium transition-colors hover:text-amber-900 dark:hover:text-amber-100"
 							>
 								Portfolio
-							</a>
+							</Link>
 						</div>
 					</div>
 

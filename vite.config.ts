@@ -10,11 +10,13 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { notesMetadataPlugin } from './app/plugins/vite-notes-metadata'
+import { portfolioMetadataPlugin } from './app/plugins/vite-portfolio-metadata'
 
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		notesMetadataPlugin(),
+		portfolioMetadataPlugin(),
 		mdx({
 			remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
 			rehypePlugins: [
