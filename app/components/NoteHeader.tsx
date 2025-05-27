@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { type NoteMetadata } from '#app/plugins/vite-notes-metadata'
+import { slugify } from '#app/utils/slugify'
 
 interface NoteHeaderProps {
 	note: NoteMetadata
@@ -35,9 +36,12 @@ export function NoteHeader({ note }: NoteHeaderProps) {
 						{note.category && (
 							<>
 								<span className="text-amber-600 dark:text-amber-500">•</span>
-								<span className="text-sm font-medium tracking-wide text-amber-700 uppercase dark:text-amber-500">
+								<Link
+									to={`/categories/${slugify(note.category)}`}
+									className="text-sm font-medium tracking-wide text-amber-700 uppercase transition-colors hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
+								>
 									{note.category}
-								</span>
+								</Link>
 							</>
 						)}
 					</div>
@@ -46,12 +50,13 @@ export function NoteHeader({ note }: NoteHeaderProps) {
 					{note.tags && note.tags.length > 0 && (
 						<div className="flex flex-wrap gap-2">
 							{note.tags.map((tag) => (
-								<span
+								<Link
 									key={tag}
-									className="rounded bg-amber-200 px-2 py-1 text-xs text-amber-800 dark:bg-zinc-700 dark:text-stone-300"
+									to={`/tags/${slugify(tag)}`}
+									className="rounded bg-amber-200 px-2 py-1 text-xs text-amber-800 transition-colors hover:bg-amber-300 hover:text-amber-900 dark:bg-zinc-700 dark:text-stone-300 dark:hover:bg-zinc-600"
 								>
 									{tag}
-								</span>
+								</Link>
 							))}
 						</div>
 					)}

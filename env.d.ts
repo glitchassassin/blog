@@ -12,5 +12,9 @@ declare module 'virtual:notes-metadata' {
 	export const notes: NoteMetadata[]
 	export const notesBySlug: Record<string, NoteMetadata>
 	export const notesByCategory: Record<string, NoteMetadata[]>
+	export const notesByCategorySlug: Record<string, NoteMetadata[]>
 	export const allTags: string[]
+	export const notesByTagSlug: Record<string, NoteMetadata[]>
+	export const categorySlugToLabel: Record<string, string>
+	export const tagSlugToLabel: Record<string, string>
 }

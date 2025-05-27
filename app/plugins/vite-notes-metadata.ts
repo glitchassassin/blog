@@ -128,9 +128,73 @@ export const notesByCategory = notes.reduce((acc, note) => {
 	return acc
 }, {})
 
+// Create category index by slug
+export const notesByCategorySlug = notes.reduce((acc, note) => {
+	if (note.category) {
+		const categorySlug = slugify(note.category)
+		if (!acc[categorySlug]) {
+			acc[categorySlug] = []
+		}
+		acc[categorySlug].push(note)
+	}
+	return acc
+}, {})
+
 export const allTags = Array.from(
 	new Set(notes.flatMap(note => note.tags || []))
 ).sort()
+
+// Create tag index by slug
+export const notesByTagSlug = notes.reduce((acc, note) => {
+	if (note.tags) {
+		note.tags.forEach(tag => {
+			const tagSlug = slugify(tag)
+			if (!acc[tagSlug]) {
+				acc[tagSlug] = []
+			}
+			acc[tagSlug].push(note)
+		})
+	}
+	return acc
+}, {})
+
+// Create lookup maps from slug to human-readable label
+export const categorySlugToLabel = notes.reduce((acc, note) => {
+	if (note.category) {
+		const categorySlug = slugify(note.category)
+		acc[categorySlug] = note.category
+	}
+	return acc
+}, {})
+
+export const tagSlugToLabel = notes.reduce((acc, note) => {
+	if (note.tags) {
+		note.tags.forEach(tag => {
+			const tagSlug = slugify(tag)
+			acc[tagSlug] = tag
+		})
+	}
+	return acc
+}, {})
+
+// Helper function for slugifying (re-exported)
+function slugify(text) {
+	return text
+		.toString()
+		.toLowerCase()
+		.trim()
+		// Remove accents/diacritics
+		.normalize('NFD')
+		.replace(/[\\u0300-\\u036f]/g, '')
+		// Replace spaces and underscores with hyphens
+		.replace(/[\\s_]+/g, '-')
+		// Remove non-alphanumeric characters except hyphens
+		.replace(/[^a-z0-9-]/g, '')
+		// Remove multiple consecutive hyphens
+		.replace(/-+/g, '-')
+		// Remove leading/trailing hyphens
+		.replace(/^-+|-+$/g, '')
+}
 `
 	}
 
