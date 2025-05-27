@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { Badge } from '#app/components/ui/badge'
 
 interface BlogPostProps {
 	date: string
@@ -35,12 +36,9 @@ export function BlogPost({
 			</p>
 			<div className="flex gap-2 text-xs">
 				{tags.map((tag) => (
-					<span
-						key={tag}
-						className="rounded bg-amber-200 px-2 py-1 text-amber-800 dark:bg-zinc-700 dark:text-stone-300"
-					>
+					<Badge key={tag} variant="secondary">
 						{tag}
-					</span>
+					</Badge>
 				))}
 			</div>
 		</>
