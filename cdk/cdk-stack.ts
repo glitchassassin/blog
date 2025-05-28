@@ -4,6 +4,8 @@ import * as cdk from 'aws-cdk-lib'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
+import * as events from 'aws-cdk-lib/aws-events'
+import * as targets from 'aws-cdk-lib/aws-events-targets'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs'
 import * as route53 from 'aws-cdk-lib/aws-route53'
@@ -48,6 +50,20 @@ export class CdkStack extends cdk.Stack {
 		const functionUrl = lambdaFunction.addFunctionUrl({
 			authType: lambda.FunctionUrlAuthType.NONE,
 		})
+
+		const warmingRule = new events.Rule(this, 'WarmingRule', {
+			schedule: events.Schedule.rate(cdk.Duration.minutes(5)), // Ping every 5 minutes
+			description: 'Keep Lambda function warm',
+		})
+
+		warmingRule.addTarget(
+			new targets.LambdaFunction(lambdaFunction, {
+				event: events.RuleTargetInput.fromObject({
+					source: 'warming',
+					action: 'ping',
+				}),
+			}),
+		)
 
 		// Create S3 bucket for static assets
 		const staticBucket = new s3.Bucket(this, 'StaticBucket', {
