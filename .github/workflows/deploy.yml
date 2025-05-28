@@ -25,22 +25,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key:
-            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
-            'patches/**') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npx patch-package
+        uses: bahmutov/npm-install@v1
+
+      - name: Apply patches
+        run: npx patch-package
 
       - name: Build
         run: npm run build
@@ -69,22 +59,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key:
-            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
-            'patches/**') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npx patch-package
+        uses: bahmutov/npm-install@v1
+
+      - name: Apply patches
+        run: npx patch-package
 
       - name: Type check
         run: npm run typecheck
@@ -117,22 +97,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key:
-            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
-            'patches/**') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npx patch-package
+        uses: bahmutov/npm-install@v1
+
+      - name: Apply patches
+        run: npx patch-package
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -171,22 +141,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key:
-            ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json',
-            'patches/**') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npx patch-package
+        uses: bahmutov/npm-install@v1
+
+      - name: Apply patches
+        run: npx patch-package
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
