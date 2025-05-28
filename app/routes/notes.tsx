@@ -3,7 +3,10 @@ import { notesBySlug } from 'virtual:notes-metadata'
 import { Footer } from '#app/components/Footer'
 import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
+import { SITE_DESCRIPTION, SITE_TITLE } from '#app/data'
 import { type NoteMetadata } from '#app/plugins/vite-notes-metadata'
+import { getDomainUrl } from '#app/utils/misc'
+import { generateSEOMeta } from '#app/utils/seo'
 import { type Route } from './+types/notes'
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -24,31 +27,27 @@ export async function loader({ request }: Route.LoaderArgs) {
 		throw new Response('Not Found', { status: 404 })
 	}
 
-	return { noteMetadata }
+	return {
+		noteMetadata,
+	}
 }
 
-export function meta({ data }: Route.MetaArgs) {
-	if (data?.noteMetadata) {
-		const note = data.noteMetadata
-		return [
-			{ title: note.title ? `${note.title} | Field Notes` : 'Field Notes' },
-			{
-				name: 'description',
-				content: note.excerpt || 'Field notes and observations by Jon Winsley',
-			},
-			...(note.tags
-				? [{ name: 'keywords', content: note.tags.join(', ') }]
-				: []),
-		]
-	}
+export function meta({ data, location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
 
-	return [
-		{ title: 'Field Notes' },
-		{
-			name: 'description',
-			content: 'The observations and experiments of Jon Winsley',
-		},
-	]
+	return generateSEOMeta({
+		title: data?.noteMetadata?.title
+			? `${data.noteMetadata.title} | ${SITE_TITLE}`
+			: SITE_TITLE,
+		description: data?.noteMetadata?.excerpt || SITE_DESCRIPTION,
+		url,
+		type: 'article',
+		publishedTime: data?.noteMetadata?.date
+			? new Date(data.noteMetadata.date).toISOString()
+			: undefined,
+		tags: data?.noteMetadata?.tags,
+	})
 }
 
 export default function NotesLayout() {

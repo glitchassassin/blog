@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { SITE_TITLE } from '#app/data'
 
 export function Header() {
 	return (
@@ -48,7 +49,7 @@ export function Header() {
 					<div className="mb-6">
 						<Link to="/">
 							<h1 className="mb-2 font-serif text-4xl text-amber-900 md:text-5xl dark:text-stone-100">
-								Field Notes
+								{SITE_TITLE}
 							</h1>
 						</Link>
 						<p className="text-lg text-amber-700 italic dark:font-light dark:text-stone-200">
@@ -90,7 +91,7 @@ export function Header() {
 						</div>
 						<input
 							type="search"
-							placeholder="Search field notes..."
+							placeholder="Search..."
 							className="w-full rounded-md border border-amber-300 bg-amber-100/70 py-2 pr-4 pl-10 text-sm focus:border-transparent focus:ring-2 focus:ring-amber-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-stone-200 dark:placeholder-stone-400 dark:focus:ring-amber-400"
 						/>
 					</div>

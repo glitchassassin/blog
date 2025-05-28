@@ -13,16 +13,20 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from '#app/components/ui/pagination'
+import { SITE_DESCRIPTION, SITE_TITLE } from '#app/data'
+import { generateSEOMeta } from '#app/utils/seo'
 import { type Route } from './+types/_index'
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'Field Notes' },
-		{
-			name: 'description',
-			content: 'The observations and experiments of Jon Winsley',
-		},
-	]
+export function meta({ location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
+
+	return generateSEOMeta({
+		title: SITE_TITLE,
+		description: SITE_DESCRIPTION,
+		url,
+		type: 'website',
+	})
 }
 
 const POSTS_PER_PAGE = 5
@@ -31,7 +35,9 @@ export function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url)
 	const currentPage = Math.max(1, parseInt(url.searchParams.get('page') || '1'))
 
-	return { currentPage }
+	return {
+		currentPage,
+	}
 }
 
 export default function Home() {

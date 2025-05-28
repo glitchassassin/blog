@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { SITE_TITLE } from '#app/data'
 import { type NoteMetadata } from '#app/plugins/vite-notes-metadata'
 import { slugify } from '#app/utils/slugify'
 
@@ -13,7 +14,7 @@ interface NoteHeaderProps {
 export function NoteHeader({ note, backLink }: NoteHeaderProps) {
 	const defaultBackLink = {
 		url: '/',
-		label: 'Field Notes',
+		label: SITE_TITLE,
 	}
 
 	const activeBackLink = backLink || defaultBackLink

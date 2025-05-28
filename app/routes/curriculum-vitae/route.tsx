@@ -1,16 +1,21 @@
 import { Link } from 'react-router'
 import { PageLayout } from '#app/components/PageLayout'
+import { SITE_TITLE } from '#app/data'
+import { generateSEOMeta } from '#app/utils/seo'
+import { type Route } from './+types/route'
 import printStyles from './print.module.css'
 
-export function meta() {
-	return [
-		{ title: 'Curriculum Vitae | Jon Winsley' },
-		{
-			name: 'description',
-			content:
-				'Professional resume and curriculum vitae of Jon Winsley, Senior Software Engineer',
-		},
-	]
+export function meta({ location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
+
+	return generateSEOMeta({
+		title: 'Curriculum Vitae | Jon Winsley',
+		description:
+			'Professional resume and curriculum vitae of Jon Winsley, Senior Software Engineer.',
+		url,
+		type: 'website',
+	})
 }
 
 export default function CurriculumVitae() {
@@ -22,7 +27,7 @@ export default function CurriculumVitae() {
 					to="/"
 					className="font-mono text-sm text-amber-700 transition-colors hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-100"
 				>
-					← Field Notes
+					← {SITE_TITLE}
 				</Link>
 			</div>
 

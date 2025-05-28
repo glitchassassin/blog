@@ -3,7 +3,9 @@ import { portfolioBySlug } from 'virtual:portfolio-metadata'
 import { Footer } from '#app/components/Footer'
 import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
+import { SITE_TITLE } from '#app/data'
 import { type PortfolioMetadata } from '#app/plugins/vite-portfolio-metadata'
+import { generateSEOMeta } from '#app/utils/seo'
 import { type Route } from './+types/portfolio'
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -24,32 +26,24 @@ export async function loader({ request }: Route.LoaderArgs) {
 		throw new Response('Not Found', { status: 404 })
 	}
 
-	return { portfolioMetadata }
+	return {
+		portfolioMetadata,
+	}
 }
 
-export function meta({ data }: Route.MetaArgs) {
-	if (data?.portfolioMetadata) {
-		const project = data.portfolioMetadata
-		return [
-			{
-				title: project.title
-					? `${project.title} | Portfolio | Field Notes`
-					: 'Portfolio | Field Notes',
-			},
-			{
-				name: 'description',
-				content: project.excerpt || 'Portfolio project by Jon Winsley',
-			},
-		]
-	}
+export function meta({ data, location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
 
-	return [
-		{ title: 'Portfolio | Field Notes' },
-		{
-			name: 'description',
-			content: 'Portfolio projects by Jon Winsley',
-		},
-	]
+	return generateSEOMeta({
+		title: data?.portfolioMetadata?.title
+			? `${data.portfolioMetadata.title} | Portfolio | ${SITE_TITLE}`
+			: `Portfolio | ${SITE_TITLE}`,
+		description:
+			data?.portfolioMetadata?.excerpt || 'Portfolio project by Jon Winsley',
+		url,
+		type: 'article',
+	})
 }
 
 export default function PortfolioLayout() {

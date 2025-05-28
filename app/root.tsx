@@ -10,21 +10,57 @@ import {
 
 import { type Route } from './+types/root'
 import './app.css'
+import { SITE_TITLE } from './data'
 import { ClientHintCheck, getHints } from './utils/client-hints'
+import { getDomainUrl } from './utils/misc'
 
 export async function loader({ request }: Route.LoaderArgs) {
 	return {
 		requestInfo: {
 			hints: getHints(request),
 		},
+		domainUrl: getDomainUrl(request),
 	}
 }
 
-export const meta: Route.MetaFunction = () => [
-	{ title: 'Field Notes' },
+export const meta: Route.MetaFunction = ({ data }) => [
+	{ title: SITE_TITLE },
 	{
 		name: 'description',
 		content: 'The observations and experiments of Jon Winsley',
+	},
+	// OpenGraph tags
+	{ property: 'og:title', content: SITE_TITLE },
+	{
+		property: 'og:description',
+		content: 'The observations and experiments of Jon Winsley',
+	},
+	{ property: 'og:type', content: 'website' },
+	{ property: 'og:url', content: data?.domainUrl },
+	{ property: 'og:site_name', content: SITE_TITLE },
+	{ property: 'og:locale', content: 'en_US' },
+
+	// Twitter Card tags
+	{ name: 'twitter:card', content: 'summary_large_image' },
+	{ name: 'twitter:title', content: SITE_TITLE },
+	{
+		name: 'twitter:description',
+		content: 'The observations and experiments of Jon Winsley',
+	},
+	{ name: 'twitter:creator', content: '@jonwinsley' }, // Update to your Twitter handle
+
+	// Additional SEO tags
+	{ name: 'author', content: 'Jon Winsley' },
+	{ name: 'robots', content: 'index, follow' },
+	{ name: 'googlebot', content: 'index, follow' },
+
+	// RSS feed
+	{
+		tagName: 'link',
+		rel: 'alternate',
+		type: 'application/rss+xml',
+		title: `${SITE_TITLE} RSS Feed`,
+		href: '/rss.xml',
 	},
 ]
 
@@ -74,7 +110,7 @@ export const links: Route.LinksFunction = () => [
 	},
 
 	// Web App Manifest
-	{ rel: 'manifest', href: '/assets/site.webmanifest' },
+	{ rel: 'manifest', href: '/site.webmanifest' },
 
 	// Fonts
 	{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },

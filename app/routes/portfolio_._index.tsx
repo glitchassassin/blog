@@ -3,16 +3,28 @@ import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
 import { PageLayout } from '#app/components/PageLayout'
 import { PortfolioProject } from '#app/components/PortfolioProject'
+import { SITE_TITLE } from '#app/data'
+import { getDomainUrl } from '#app/utils/misc'
+import { generateSEOMeta } from '#app/utils/seo'
 import { type Route } from './+types/portfolio_._index'
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'Portfolio - Field Notes' },
-		{
-			name: 'description',
-			content: 'A showcase of projects and work by Jon Winsley',
-		},
-	]
+export function meta({ location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
+
+	return generateSEOMeta({
+		title: `Portfolio | ${SITE_TITLE}`,
+		description:
+			'A showcase of projects, experiments, and professional work by Jon Winsley.',
+		url,
+		type: 'website',
+	})
+}
+
+export function loader({ request }: Route.LoaderArgs) {
+	return {
+		domainUrl: getDomainUrl(request),
+	}
 }
 
 export default function Portfolio() {

@@ -13,29 +13,27 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from '#app/components/ui/pagination'
+import { SITE_TITLE } from '#app/data'
+import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
+import { type Route } from './+types/tags.$tag'
 
-export function meta({ params }: { params: { tag: string } }) {
+export function meta({ params, location, matches }: Route.MetaArgs) {
 	const tagName = tagSlugToLabel[params.tag] ?? params.tag
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
 
-	return [
-		{ title: `${tagName} | Field Notes` },
-		{
-			name: 'description',
-			content: `Notes tagged with ${tagName}`,
-		},
-	]
+	return generateSEOMeta({
+		title: `${tagName} | Tags | ${SITE_TITLE}`,
+		description: `Notes tagged with ${tagName}.`,
+		url,
+		type: 'website',
+	})
 }
 
 const POSTS_PER_PAGE = 5
 
-export function loader({
-	request,
-	params,
-}: {
-	request: Request
-	params: { tag: string }
-}) {
+export function loader({ request, params }: Route.LoaderArgs) {
 	const tagSlug = params.tag
 
 	// Get notes by tag slug directly

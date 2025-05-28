@@ -3,19 +3,25 @@ import { notesByTagSlug } from 'virtual:notes-metadata'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
 import { PageLayout } from '#app/components/PageLayout'
+import { SITE_TITLE } from '#app/data'
+import { getDomainUrl } from '#app/utils/misc'
+import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
+import { type Route } from './+types/tags._index'
 
-export function meta() {
-	return [
-		{ title: 'Tags | Field Notes' },
-		{
-			name: 'description',
-			content: 'Browse notes by tag',
-		},
-	]
+export function meta({ location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
+
+	return generateSEOMeta({
+		title: `Tags | ${SITE_TITLE}`,
+		description: 'Browse notes by tags.',
+		url,
+		type: 'website',
+	})
 }
 
-export function loader() {
+export function loader({ request }: Route.LoaderArgs) {
 	const tagStats = Object.entries(notesByTagSlug)
 		.map(([tag, notes]) => ({
 			name: tag,
@@ -24,7 +30,10 @@ export function loader() {
 		}))
 		.sort((a, b) => b.count - a.count) // Sort by post count descending
 
-	return { tags: tagStats }
+	return {
+		tags: tagStats,
+		domainUrl: getDomainUrl(request),
+	}
 }
 
 export default function TagsIndex() {

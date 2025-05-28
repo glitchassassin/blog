@@ -16,29 +16,27 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from '#app/components/ui/pagination'
+import { SITE_TITLE } from '#app/data'
+import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
+import { type Route } from './+types/categories.$category'
 
-export function meta({ params }: { params: { category: string } }) {
+export function meta({ params, location, matches }: Route.MetaArgs) {
 	const categoryName = categorySlugToLabel[params.category] ?? params.category
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
 
-	return [
-		{ title: `${categoryName} | Field Notes` },
-		{
-			name: 'description',
-			content: `Notes in the ${categoryName} category`,
-		},
-	]
+	return generateSEOMeta({
+		title: `${categoryName} | Categories | ${SITE_TITLE}`,
+		description: `Notes in the ${categoryName} category.`,
+		url,
+		type: 'website',
+	})
 }
 
 const POSTS_PER_PAGE = 5
 
-export function loader({
-	request,
-	params,
-}: {
-	request: Request
-	params: { category: string }
-}) {
+export function loader({ request, params }: Route.LoaderArgs) {
 	const categorySlug = params.category
 
 	// Get notes by category slug directly

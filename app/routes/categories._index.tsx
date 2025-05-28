@@ -1,17 +1,23 @@
 import { useLoaderData, Link } from 'react-router'
-import { notesByCategory, notesByCategorySlug } from 'virtual:notes-metadata'
+import { notesByCategorySlug } from 'virtual:notes-metadata'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
 import { PageLayout } from '#app/components/PageLayout'
+import { SITE_TITLE } from '#app/data'
+import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
-export function meta() {
-	return [
-		{ title: 'Categories | Field Notes' },
-		{
-			name: 'description',
-			content: 'Browse notes by category',
-		},
-	]
+import { type Route } from './+types/categories._index'
+
+export function meta({ location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const url = domainUrl + location.pathname
+
+	return generateSEOMeta({
+		title: `Categories | ${SITE_TITLE}`,
+		description: 'Browse notes organized by subject matter.',
+		url,
+		type: 'website',
+	})
 }
 
 export function loader() {
@@ -23,7 +29,9 @@ export function loader() {
 		}))
 		.sort((a, b) => b.count - a.count) // Sort by post count descending
 
-	return { categories }
+	return {
+		categories,
+	}
 }
 
 export default function CategoriesIndex() {
