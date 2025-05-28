@@ -46,6 +46,26 @@ export class CdkStack extends cdk.Stack {
 			authType: lambda.FunctionUrlAuthType.NONE,
 		})
 
+		// Create CloudFront function to add forwarded headers
+		const forwardHeadersFunction = new cloudfront.Function(
+			this,
+			'ForwardHeadersFunction',
+			{
+				code: cloudfront.FunctionCode.fromInline(`
+function handler(event) {
+	var request = event.request;
+	var headers = request.headers;
+	
+	// Add X-Forwarded-Host header with the CloudFront host
+	headers['x-forwarded-host'] = {value: headers.host.value};
+	
+	return request;
+}
+				`),
+				comment: 'Adds X-Forwarded-Host header for Lambda',
+			},
+		)
+
 		// Create S3 bucket for static assets
 		const staticBucket = new s3.Bucket(this, 'StaticBucket', {
 			enforceSSL: true,
@@ -65,6 +85,12 @@ export class CdkStack extends cdk.Stack {
 				originRequestPolicy:
 					cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
 				cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+				functionAssociations: [
+					{
+						function: forwardHeadersFunction,
+						eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+					},
+				],
 			},
 			additionalBehaviors: {
 				'/assets/*': {
