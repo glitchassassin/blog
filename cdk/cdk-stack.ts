@@ -49,26 +49,6 @@ export class CdkStack extends cdk.Stack {
 			authType: lambda.FunctionUrlAuthType.NONE,
 		})
 
-		// Create CloudFront function to add forwarded headers
-		const forwardHeadersFunction = new cloudfront.Function(
-			this,
-			'ForwardHeadersFunction',
-			{
-				code: cloudfront.FunctionCode.fromInline(`
-function handler(event) {
-	var request = event.request;
-	var headers = request.headers;
-	
-	// Add X-Forwarded-Host header with the CloudFront host
-	headers['x-forwarded-host'] = {value: headers.host.value};
-	
-	return request;
-}
-				`),
-				comment: 'Adds X-Forwarded-Host header for Lambda',
-			},
-		)
-
 		// Create S3 bucket for static assets
 		const staticBucket = new s3.Bucket(this, 'StaticBucket', {
 			enforceSSL: true,
@@ -83,15 +63,64 @@ function handler(event) {
 			domainName: 'jonwinsley.com',
 		})
 
-		// Create SSL certificate
+		// Create SSL certificate (must be in us-east-1 for CloudFront)
 		const certificate = new acm.Certificate(this, 'Certificate', {
 			domainName: 'jonwinsley.com',
+			subjectAlternativeNames: ['www.jonwinsley.com'],
 			validation: acm.CertificateValidation.fromDns(hostedZone),
+			certificateName: 'jonwinsley-com-cert',
 		})
+
+		// Create CloudFront function to handle www redirect
+		const wwwRedirectFunction = new cloudfront.Function(
+			this,
+			'WwwRedirectFunction',
+			{
+				code: cloudfront.FunctionCode.fromInline(`
+function handler(event) {
+	var request = event.request;
+	var headers = request.headers;
+	
+	// Check if the host is www.jonwinsley.com and redirect to jonwinsley.com
+	if (headers.host.value === 'www.jonwinsley.com') {
+		var queryString = '';
+		if (request.querystring && Object.keys(request.querystring).length > 0) {
+			var params = [];
+			for (var key in request.querystring) {
+				if (request.querystring[key].value) {
+					params.push(key + '=' + encodeURIComponent(request.querystring[key].value));
+				} else {
+					params.push(key);
+				}
+			}
+			queryString = '?' + params.join('&');
+		}
+		
+		return {
+			statusCode: 301,
+			statusDescription: 'Moved Permanently',
+			headers: {
+				'location': {
+					value: 'https://jonwinsley.com' + request.uri + queryString
+				}
+			}
+		};
+	}
+	
+	// Add X-Forwarded-Host header with the CloudFront host for non-www requests
+	headers['x-forwarded-host'] = {value: headers.host.value};
+	
+	return request;
+}
+				`),
+				comment:
+					'Redirects www.jonwinsley.com to jonwinsley.com and adds forwarded headers',
+			},
+		)
 
 		// Create CloudFront distribution
 		const distribution = new cloudfront.Distribution(this, 'Distribution', {
-			domainNames: ['jonwinsley.com'],
+			domainNames: ['jonwinsley.com', 'www.jonwinsley.com'],
 			certificate,
 			defaultBehavior: {
 				origin: new origins.FunctionUrlOrigin(functionUrl),
@@ -103,7 +132,7 @@ function handler(event) {
 				cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
 				functionAssociations: [
 					{
-						function: forwardHeadersFunction,
+						function: wwwRedirectFunction,
 						eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
 					},
 				],
@@ -141,6 +170,15 @@ function handler(event) {
 		new route53.ARecord(this, 'AliasRecord', {
 			zone: hostedZone,
 			recordName: 'jonwinsley.com',
+			target: route53.RecordTarget.fromAlias(
+				new route53targets.CloudFrontTarget(distribution),
+			),
+		})
+
+		// Create Route53 A record for www subdomain pointing to the same CloudFront distribution
+		new route53.ARecord(this, 'WwwAliasRecord', {
+			zone: hostedZone,
+			recordName: 'www.jonwinsley.com',
 			target: route53.RecordTarget.fromAlias(
 				new route53targets.CloudFrontTarget(distribution),
 			),
