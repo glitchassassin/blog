@@ -7,9 +7,13 @@ declare module '*.mdx' {
 declare module 'virtual:notes-metadata' {
 	// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 	type NoteMetadata = import('#app/plugins/vite-notes-metadata').NoteMetadata
+	// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+	type SearchIndexEntry =
+		import('#app/plugins/vite-notes-metadata').SearchIndexEntry
 
 	// Exported data
 	export const notes: NoteMetadata[]
+	export const searchIndex: SearchIndexEntry[]
 	export const notesBySlug: Record<string, NoteMetadata>
 	export const notesByCategory: Record<string, NoteMetadata[]>
 	export const notesByCategorySlug: Record<string, NoteMetadata[]>
@@ -20,7 +24,6 @@ declare module 'virtual:notes-metadata' {
 }
 
 declare module 'virtual:portfolio-metadata' {
-	// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 	type PortfolioMetadata =
 		import('#app/plugins/vite-portfolio-metadata').PortfolioMetadata
 

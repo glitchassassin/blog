@@ -21,25 +21,57 @@ const NoteMetadataSchema = FrontmatterSchema.extend({
 	filePath: z.string(),
 })
 
+// Zod schema for search index entries (includes content)
+const SearchIndexEntrySchema = NoteMetadataSchema.extend({
+	content: z.string(),
+})
+
 // Generate TypeScript types from Zod schemas
 export type NoteMetadata = z.infer<typeof NoteMetadataSchema>
+export type SearchIndexEntry = z.infer<typeof SearchIndexEntrySchema>
+
+// Helper function to clean MDX content for search indexing
+function cleanContentForSearch(content: string): string {
+	return (
+		content
+			// Remove MDX/JSX components and their props
+			.replace(/<[^>]*>/g, ' ')
+			// Remove code blocks (```...```)
+			.replace(/```[\s\S]*?```/g, ' ')
+			// Remove inline code (`...`)
+			.replace(/`[^`]*`/g, ' ')
+			// Remove markdown links but keep the text
+			.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+			// Remove markdown images
+			.replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+			// Remove markdown headers
+			.replace(/^#{1,6}\s+/gm, '')
+			// Remove markdown emphasis
+			.replace(/[*_]{1,2}([^*_]*)[*_]{1,2}/g, '$1')
+			// Remove extra whitespace and normalize
+			.replace(/\s+/g, ' ')
+			.trim()
+	)
+}
 
 export function notesMetadataPlugin() {
 	const virtualModuleId = 'virtual:notes-metadata'
 	const resolvedVirtualModuleId = '\0' + virtualModuleId
 
 	let notesData: NoteMetadata[] = []
+	let searchIndexData: SearchIndexEntry[] = []
 
 	const generateNotesMetadata = () => {
 		// Find all notes.*.mdx files in the routes directory
 		const noteFiles = glob.sync('app/routes/notes.*.mdx')
 		const validationErrors: string[] = []
 		notesData = []
+		searchIndexData = []
 
 		for (const filePath of noteFiles) {
 			try {
-				const content = readFileSync(filePath, 'utf-8')
-				const { data: frontmatter } = matter(content)
+				const fileContent = readFileSync(filePath, 'utf-8')
+				const { data: frontmatter, content: mdxContent } = matter(fileContent)
 
 				// Extract the slug from filename (e.g., notes.entropy-code-thermodynamics.mdx -> entropy-code-thermodynamics)
 				const filename = path.basename(filePath, '.mdx')
@@ -75,6 +107,19 @@ export function notesMetadataPlugin() {
 				}
 
 				notesData.push(metadataResult.data)
+
+				// Create search index entry with content
+				const searchContent = cleanContentForSearch(mdxContent)
+				const searchIndexEntry = {
+					...metadataResult.data,
+					content: searchContent,
+				}
+
+				// Validate the search index entry
+				const searchResult = SearchIndexEntrySchema.safeParse(searchIndexEntry)
+				if (searchResult.success) {
+					searchIndexData.push(searchResult.data)
+				}
 			} catch (error) {
 				validationErrors.push(
 					`${filePath}: Failed to read or parse file - ${error}`,
@@ -114,6 +159,8 @@ export function notesMetadataPlugin() {
 // Virtual module: ${virtualModuleId}
 
 export const notes = ${JSON.stringify(notesData, null, 2)}
+
+export const searchIndex = ${JSON.stringify(searchIndexData, null, 2)}
 
 export const notesBySlug = notes.reduce((acc, note) => {
 	acc[note.slug] = note

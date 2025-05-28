@@ -1,7 +1,10 @@
-import { Link } from 'react-router'
+import { Link, Form, useSearchParams } from 'react-router'
 import { SITE_TITLE } from '#app/data'
 
 export function Header() {
+	const [searchParams] = useSearchParams()
+	const currentQuery = searchParams.get('q') || ''
+
 	return (
 		<header className="mb-16 border-b border-amber-300 pb-8 dark:border-zinc-700">
 			<div className="flex flex-col items-center md:flex-row md:items-end md:gap-12">
@@ -73,7 +76,7 @@ export function Header() {
 					</div>
 
 					{/* Search Bar */}
-					<div className="relative max-w-md">
+					<Form method="get" action="/search" className="relative max-w-md">
 						<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 							<svg
 								className="h-4 w-4 text-amber-600 dark:text-amber-400"
@@ -91,10 +94,12 @@ export function Header() {
 						</div>
 						<input
 							type="search"
+							name="q"
+							defaultValue={currentQuery}
 							placeholder="Search..."
 							className="w-full rounded-md border border-amber-300 bg-amber-100/70 py-2 pr-4 pl-10 text-sm focus:border-transparent focus:ring-2 focus:ring-amber-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-stone-200 dark:placeholder-stone-400 dark:focus:ring-amber-400"
 						/>
-					</div>
+					</Form>
 				</div>
 			</div>
 		</header>
