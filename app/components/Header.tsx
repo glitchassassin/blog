@@ -12,11 +12,13 @@ export function Header() {
 				<div className="mb-6 flex flex-row items-center gap-4 md:order-2 md:mb-0 md:flex-col">
 					{/* Profile Photo */}
 					<div className="relative">
-						<img
-							src="/assets/images/profile_300.jpeg"
-							alt="Profile"
-							className="h-24 w-24 rounded-full object-cover md:h-30 md:w-30"
-						/>
+						<Link to="/curriculum-vitae">
+							<img
+								src="/assets/images/profile_300.jpeg"
+								alt="Profile"
+								className="h-24 w-24 rounded-full object-cover transition-opacity hover:opacity-80 md:h-30 md:w-30"
+							/>
+						</Link>
 					</div>
 
 					{/* Social Links */}
