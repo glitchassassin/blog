@@ -6,10 +6,10 @@ test.describe('Index Page', () => {
 		await page.goto('/')
 
 		// Check that the page title is correct
-		await expect(page).toHaveTitle('Field Notes')
+		await expect(page).toHaveTitle('Field Journal')
 
 		// Check that the main heading/title is visible
-		await expect(page.getByText('Field Notes')).toBeVisible()
+		await expect(page.getByText('Field Journal')).toBeVisible()
 
 		// Check that the description meta content is rendered (visible in header)
 		await expect(
@@ -32,7 +32,7 @@ test.describe('Categories', () => {
 		await page.goto('/categories')
 
 		// Check that the categories page loads correctly
-		await expect(page).toHaveTitle(/Categories.*Field Notes/)
+		await expect(page).toHaveTitle(/Categories.*Field Journal/)
 		await expect(
 			page.getByRole('heading', { name: 'Categories' }),
 		).toBeVisible()
@@ -100,7 +100,7 @@ test.describe('Portfolio', () => {
 		await page.goto('/portfolio')
 
 		// Check that the portfolio page loads correctly
-		await expect(page).toHaveTitle(/Portfolio.*Field Notes/)
+		await expect(page).toHaveTitle(/Portfolio.*Field Journal/)
 		await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible()
 		await expect(
 			page.getByText(
@@ -153,7 +153,7 @@ test.describe('RSS Feed', () => {
 		expect(rssContent).toContain('<?xml version="1.0" encoding="UTF-8"?>')
 		expect(rssContent).toContain('<rss version="2.0"')
 		expect(rssContent).toContain('<channel>')
-		expect(rssContent).toContain('<title>Field Notes</title>')
+		expect(rssContent).toContain('<title>Field Journal</title>')
 		expect(rssContent).toContain('<description>')
 
 		// Check that there are RSS items (blog posts)
