@@ -52,22 +52,12 @@ export function loader({ request, params }: Route.LoaderArgs) {
 	const url = new URL(request.url)
 	const currentPage = Math.max(1, parseInt(url.searchParams.get('page') || '1'))
 
-	return {
-		categoryName,
-		notes: categoryNotes,
-		currentPage,
-	}
-}
-
-export default function CategoryPage() {
-	const { categoryName, notes, currentPage } = useLoaderData<typeof loader>()
-
 	// Calculate pagination
-	const totalPosts = notes.length
+	const totalPosts = categoryNotes.length
 	const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
 	const startIndex = (currentPage - 1) * POSTS_PER_PAGE
 	const endIndex = startIndex + POSTS_PER_PAGE
-	const currentPosts = notes.slice(startIndex, endIndex)
+	const currentPosts = categoryNotes.slice(startIndex, endIndex)
 
 	// Generate page numbers to show
 	const getVisiblePages = () => {
@@ -102,6 +92,34 @@ export default function CategoryPage() {
 	const showNextEllipsis =
 		visiblePages.length > 0 &&
 		visiblePages[visiblePages.length - 1]! < totalPages
+
+	return {
+		categoryName,
+		currentPage,
+		currentPosts,
+		totalPosts,
+		totalPages,
+		startIndex,
+		endIndex,
+		visiblePages,
+		showPrevEllipsis,
+		showNextEllipsis,
+	}
+}
+
+export default function CategoryPage() {
+	const {
+		categoryName,
+		currentPage,
+		currentPosts,
+		totalPosts,
+		totalPages,
+		startIndex,
+		endIndex,
+		visiblePages,
+		showPrevEllipsis,
+		showNextEllipsis,
+	} = useLoaderData<typeof loader>()
 
 	const categoryUrl = `/categories/${slugify(categoryName)}`
 

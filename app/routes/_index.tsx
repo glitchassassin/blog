@@ -35,14 +35,6 @@ export function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url)
 	const currentPage = Math.max(1, parseInt(url.searchParams.get('page') || '1'))
 
-	return {
-		currentPage,
-	}
-}
-
-export default function Home() {
-	const { currentPage } = useLoaderData<typeof loader>()
-
 	// Calculate pagination
 	const totalPosts = notes.length
 	const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
@@ -83,6 +75,32 @@ export default function Home() {
 	const showNextEllipsis =
 		visiblePages.length > 0 &&
 		visiblePages[visiblePages.length - 1]! < totalPages
+
+	return {
+		currentPage,
+		currentPosts,
+		totalPosts,
+		totalPages,
+		startIndex,
+		endIndex,
+		visiblePages,
+		showPrevEllipsis,
+		showNextEllipsis,
+	}
+}
+
+export default function Home() {
+	const {
+		currentPage,
+		currentPosts,
+		totalPosts,
+		totalPages,
+		startIndex,
+		endIndex,
+		visiblePages,
+		showPrevEllipsis,
+		showNextEllipsis,
+	} = useLoaderData<typeof loader>()
 
 	return (
 		<PageLayout theme="botany">

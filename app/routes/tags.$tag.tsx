@@ -49,20 +49,6 @@ export function loader({ request, params }: Route.LoaderArgs) {
 	const url = new URL(request.url)
 	const currentPage = Math.max(1, parseInt(url.searchParams.get('page') || '1'))
 
-	return {
-		tagName,
-		notes: tagNotes,
-		currentPage,
-	}
-}
-
-export default function TagPage() {
-	const {
-		tagName,
-		notes: tagNotes,
-		currentPage,
-	} = useLoaderData<typeof loader>()
-
 	// Calculate pagination
 	const totalPosts = tagNotes.length
 	const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
@@ -103,6 +89,34 @@ export default function TagPage() {
 	const showNextEllipsis =
 		visiblePages.length > 0 &&
 		visiblePages[visiblePages.length - 1]! < totalPages
+
+	return {
+		tagName,
+		currentPage,
+		currentPosts,
+		totalPosts,
+		totalPages,
+		startIndex,
+		endIndex,
+		visiblePages,
+		showPrevEllipsis,
+		showNextEllipsis,
+	}
+}
+
+export default function TagPage() {
+	const {
+		tagName,
+		currentPage,
+		currentPosts,
+		totalPosts,
+		totalPages,
+		startIndex,
+		endIndex,
+		visiblePages,
+		showPrevEllipsis,
+		showNextEllipsis,
+	} = useLoaderData<typeof loader>()
 
 	const tagUrl = `/tags/${slugify(tagName)}`
 
