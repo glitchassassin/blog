@@ -1,10 +1,13 @@
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import * as cdk from 'aws-cdk-lib'
+import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs'
+import * as route53 from 'aws-cdk-lib/aws-route53'
+import * as route53targets from 'aws-cdk-lib/aws-route53-targets'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment'
 import { type Construct } from 'constructs'
@@ -75,8 +78,21 @@ function handler(event) {
 			autoDeleteObjects: true,
 		})
 
+		// Look up the hosted zone
+		const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
+			domainName: 'jonwinsley.com',
+		})
+
+		// Create SSL certificate
+		const certificate = new acm.Certificate(this, 'Certificate', {
+			domainName: 'jonwinsley.com',
+			validation: acm.CertificateValidation.fromDns(hostedZone),
+		})
+
 		// Create CloudFront distribution
 		const distribution = new cloudfront.Distribution(this, 'Distribution', {
+			domainNames: ['jonwinsley.com'],
+			certificate,
 			defaultBehavior: {
 				origin: new origins.FunctionUrlOrigin(functionUrl),
 				viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -119,6 +135,15 @@ function handler(event) {
 			distribution,
 			distributionPaths: ['/assets/*'],
 			memoryLimit: 256,
+		})
+
+		// Create Route53 A record pointing to CloudFront
+		new route53.ARecord(this, 'AliasRecord', {
+			zone: hostedZone,
+			recordName: 'jonwinsley.com',
+			target: route53.RecordTarget.fromAlias(
+				new route53targets.CloudFrontTarget(distribution),
+			),
 		})
 
 		new cdk.CfnOutput(this, 'DistributionDomainName', {
