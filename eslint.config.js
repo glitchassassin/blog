@@ -6,4 +6,10 @@ export default [
 	{
 		ignores: ['.react-router/**'],
 	},
+	{
+		files: ['*.d.ts'],
+		rules: {
+			'@typescript-eslint/consistent-type-imports': 'off',
+		},
+	},
 ]

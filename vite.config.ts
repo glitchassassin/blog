@@ -24,6 +24,7 @@ export default defineConfig({
 				rehypeSlug,
 				[rehypeAutolinkHeadings, { behavior: 'wrap' }],
 			],
+			providerImportSource: '@mdx-js/react',
 		}),
 		reactRouter(),
 		tsconfigPaths(),

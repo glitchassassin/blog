@@ -22,7 +22,7 @@ Content is managed through GitHub, with MDX support for rich content creation.
 ### Content Management
 
 - [x] MDX support for rich content
-- [ ] Custom MDX components
+- [x] Custom MDX components
 - [x] Code syntax highlighting
 - [ ] Image optimization and lazy loading
 - [ ] Reading time estimates

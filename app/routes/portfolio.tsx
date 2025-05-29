@@ -1,6 +1,7 @@
 import { Outlet, useLoaderData } from 'react-router'
 import { portfolioBySlug } from 'virtual:portfolio-metadata'
 import { Footer } from '#app/components/Footer'
+import { MDXContent } from '#app/components/mdx/MDXContent'
 import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
 import { SITE_TITLE } from '#app/data'
@@ -61,7 +62,9 @@ export default function PortfolioLayout() {
 
 			<main className="mx-auto max-w-4xl px-4 py-4">
 				<article className="prose prose-lg dark:prose-invert mx-auto">
-					<Outlet />
+					<MDXContent>
+						<Outlet />
+					</MDXContent>
 				</article>
 			</main>
 
