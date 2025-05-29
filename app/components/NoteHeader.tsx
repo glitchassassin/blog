@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { SITE_TITLE } from '#app/data'
 import { type NoteMetadata } from '#app/plugins/vite-notes-metadata'
+import { formatReadingTime } from '#app/utils/reading-time'
 import { slugify } from '#app/utils/slugify'
 
 interface NoteHeaderProps {
@@ -47,13 +48,21 @@ export function NoteHeader({ note, backLink }: NoteHeaderProps) {
 						)}
 						{note.category && (
 							<>
-								<span className="text-amber-600 dark:text-amber-500">•</span>
+								<span className="text-amber-700 dark:text-stone-100">•</span>
 								<Link
 									to={`/categories/${slugify(note.category)}`}
 									className="text-sm font-medium tracking-wide text-amber-700 uppercase transition-colors hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
 								>
 									{note.category}
 								</Link>
+							</>
+						)}
+						{note.readingTime && (
+							<>
+								<span className="text-amber-700 dark:text-stone-100">•</span>
+								<span className="font-mono text-sm text-amber-700 dark:text-amber-400">
+									{formatReadingTime(note.readingTime)}
+								</span>
 							</>
 						)}
 					</div>

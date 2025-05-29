@@ -25,7 +25,7 @@ Content is managed through GitHub, with MDX support for rich content creation.
 - [x] Custom MDX components
 - [x] Code syntax highlighting
 - [ ] Image optimization and lazy loading
-- [ ] Reading time estimates
+- [x] Reading time estimates
 - [x] Portfolio section
 - [x] CV page
 

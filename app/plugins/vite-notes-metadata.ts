@@ -3,6 +3,8 @@ import path from 'path'
 import { glob } from 'glob'
 import matter from 'gray-matter'
 import { z } from 'zod'
+import { cleanMDXContent } from '#app/utils/mdx-content'
+import { calculateReadingTime } from '#app/utils/reading-time'
 
 // Zod schema for frontmatter validation
 const FrontmatterSchema = z
@@ -19,6 +21,7 @@ const FrontmatterSchema = z
 const NoteMetadataSchema = FrontmatterSchema.extend({
 	slug: z.string(),
 	filePath: z.string(),
+	readingTime: z.number(),
 })
 
 // Zod schema for search index entries (includes content)
@@ -29,30 +32,6 @@ const SearchIndexEntrySchema = NoteMetadataSchema.extend({
 // Generate TypeScript types from Zod schemas
 export type NoteMetadata = z.infer<typeof NoteMetadataSchema>
 export type SearchIndexEntry = z.infer<typeof SearchIndexEntrySchema>
-
-// Helper function to clean MDX content for search indexing
-function cleanContentForSearch(content: string): string {
-	return (
-		content
-			// Remove MDX/JSX components and their props
-			.replace(/<[^>]*>/g, ' ')
-			// Remove code blocks (```...```)
-			.replace(/```[\s\S]*?```/g, ' ')
-			// Remove inline code (`...`)
-			.replace(/`[^`]*`/g, ' ')
-			// Remove markdown links but keep the text
-			.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-			// Remove markdown images
-			.replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
-			// Remove markdown headers
-			.replace(/^#{1,6}\s+/gm, '')
-			// Remove markdown emphasis
-			.replace(/[*_]{1,2}([^*_]*)[*_]{1,2}/g, '$1')
-			// Remove extra whitespace and normalize
-			.replace(/\s+/g, ' ')
-			.trim()
-	)
-}
 
 export function notesMetadataPlugin() {
 	const virtualModuleId = 'virtual:notes-metadata'
@@ -94,6 +73,7 @@ export function notesMetadataPlugin() {
 					slug,
 					...frontmatterResult.data,
 					filePath: filePath.replace('app/', '/'),
+					readingTime: calculateReadingTime(mdxContent),
 				}
 
 				// Validate the complete metadata
@@ -109,7 +89,7 @@ export function notesMetadataPlugin() {
 				notesData.push(metadataResult.data)
 
 				// Create search index entry with content
-				const searchContent = cleanContentForSearch(mdxContent)
+				const searchContent = cleanMDXContent(mdxContent)
 				const searchIndexEntry = {
 					...metadataResult.data,
 					content: searchContent,
