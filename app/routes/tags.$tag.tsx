@@ -1,6 +1,7 @@
 import { useLoaderData, Link } from 'react-router'
 import { notesByTagSlug, tagSlugToLabel } from 'virtual:notes-metadata'
 import { BlogPost } from '#app/components/BlogPost'
+import { DefaultErrorBoundary } from '#app/components/errors/DefaultErrorBoundary'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
 import { PageLayout } from '#app/components/PageLayout'
@@ -240,3 +241,5 @@ export default function TagPage() {
 		</PageLayout>
 	)
 }
+
+export { DefaultErrorBoundary as ErrorBoundary }
