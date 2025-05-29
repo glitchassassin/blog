@@ -59,7 +59,7 @@ export default function TagsIndex() {
 						className="border-l-2 border-amber-300 pl-6 dark:border-zinc-600"
 					>
 						<div className="mb-3">
-							<h2 className="mb-2 font-serif text-2xl text-amber-900 transition-colors hover:text-amber-700 dark:text-stone-100 dark:hover:text-stone-200">
+							<h2 className="mb-2 font-serif text-2xl text-amber-900 hover:text-amber-700 dark:text-stone-100 dark:hover:text-stone-200">
 								<Link to={`/tags/${slugify(tag.name)}`}>{tag.name}</Link>
 							</h2>
 							<p className="text-sm text-amber-700 dark:text-amber-400">
@@ -74,7 +74,7 @@ export default function TagsIndex() {
 									<div key={note.slug} className="text-sm">
 										<Link
 											to={`/notes/${note.slug}`}
-											className="text-amber-800 transition-colors hover:text-amber-600 dark:text-stone-300 dark:hover:text-stone-100"
+											className="text-amber-800 hover:text-amber-600 dark:text-stone-300 dark:hover:text-stone-100"
 										>
 											{note.title}
 										</Link>
@@ -89,7 +89,7 @@ export default function TagsIndex() {
 									<div className="text-sm">
 										<Link
 											to={`/tags/${slugify(tag.name)}`}
-											className="text-amber-600 transition-colors hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-200"
+											className="text-amber-600 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-200"
 										>
 											View all {tag.count} notes →
 										</Link>

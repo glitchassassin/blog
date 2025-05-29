@@ -186,7 +186,7 @@ export default function Prototype() {
 	}
 
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center bg-amber-50 p-8 transition-colors duration-300 dark:bg-zinc-900">
+		<div className="flex min-h-screen flex-col items-center justify-center bg-amber-50 p-8 duration-300 dark:bg-zinc-900">
 			<h1 className="mb-4 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
 				Favicon Generator
 			</h1>
@@ -194,7 +194,7 @@ export default function Prototype() {
 				512x512 Canvas for favicon generation
 			</p>
 
-			<div className="rounded-lg border-2 border-zinc-300 bg-white p-4 shadow-lg transition-colors duration-300 dark:border-zinc-600 dark:bg-zinc-800">
+			<div className="rounded-lg border-2 border-zinc-300 bg-white p-4 shadow-lg duration-300 dark:border-zinc-600 dark:bg-zinc-800">
 				<canvas
 					ref={canvasRef}
 					className="border border-zinc-200 dark:border-zinc-600"
@@ -209,19 +209,19 @@ export default function Prototype() {
 			<div className="mt-6 flex flex-wrap gap-3">
 				<button
 					onClick={() => exportIcon(512)}
-					className="rounded-lg bg-amber-500 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700"
+					className="rounded-lg bg-amber-500 px-4 py-2 font-medium text-white duration-200 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700"
 				>
 					Export 512x512
 				</button>
 				<button
 					onClick={exportAllIcons}
-					className="rounded-lg bg-blue-500 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+					className="rounded-lg bg-blue-500 px-4 py-2 font-medium text-white duration-200 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
 				>
 					Export All Icons
 				</button>
 				<button
 					onClick={exportWebManifest}
-					className="rounded-lg bg-green-500 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
+					className="rounded-lg bg-green-500 px-4 py-2 font-medium text-white duration-200 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
 				>
 					Download Manifest
 				</button>

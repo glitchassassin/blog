@@ -33,7 +33,7 @@ export function PortfolioProject({
 				<time className="mb-2 block font-mono text-xs font-bold text-amber-700 dark:text-amber-400">
 					{date}
 				</time>
-				<h3 className="mb-3 font-serif text-xl text-amber-900 transition-colors group-hover:text-amber-700 dark:text-stone-100 dark:group-hover:text-stone-200">
+				<h3 className="mb-3 font-serif text-xl text-amber-900 group-hover:text-amber-700 dark:text-stone-100 dark:group-hover:text-stone-200">
 					{title}
 				</h3>
 				<p className="text-sm leading-relaxed text-amber-800 dark:text-stone-300">

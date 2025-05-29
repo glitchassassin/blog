@@ -133,7 +133,7 @@ export default function CategoryPage() {
 				<div className="mb-4">
 					<Link
 						to="/categories"
-						className="font-mono text-sm text-amber-700 transition-colors hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-100"
+						className="font-mono text-sm text-amber-700 hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-100"
 					>
 						← Categories
 					</Link>

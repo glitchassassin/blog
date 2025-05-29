@@ -27,7 +27,7 @@ export function NoteHeader({ note, backLink }: NoteHeaderProps) {
 				<div className="mb-4">
 					<Link
 						to={activeBackLink.url}
-						className="font-mono text-sm text-amber-700 transition-colors hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-100"
+						className="font-mono text-sm text-amber-700 hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-100"
 					>
 						← {activeBackLink.label}
 					</Link>
@@ -51,7 +51,7 @@ export function NoteHeader({ note, backLink }: NoteHeaderProps) {
 								<span className="text-amber-700 dark:text-stone-100">•</span>
 								<Link
 									to={`/categories/${slugify(note.category)}`}
-									className="text-sm font-medium tracking-wide text-amber-700 uppercase transition-colors hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
+									className="text-sm font-medium tracking-wide text-amber-700 uppercase hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
 								>
 									{note.category}
 								</Link>
@@ -74,7 +74,7 @@ export function NoteHeader({ note, backLink }: NoteHeaderProps) {
 								<Link
 									key={tag}
 									to={`/tags/${slugify(tag)}`}
-									className="rounded bg-amber-200 px-2 py-1 text-xs text-amber-800 transition-colors hover:bg-amber-300 hover:text-amber-900 dark:bg-zinc-700 dark:text-stone-300 dark:hover:bg-zinc-600"
+									className="rounded bg-amber-200 px-2 py-1 text-xs text-amber-800 hover:bg-amber-300 hover:text-amber-900 dark:bg-zinc-700 dark:text-stone-300 dark:hover:bg-zinc-600"
 								>
 									{tag}
 								</Link>

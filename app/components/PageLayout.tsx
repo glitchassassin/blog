@@ -15,7 +15,7 @@ export function PageLayout({
 	return (
 		<div
 			className={cn(
-				'relative min-h-screen bg-amber-50 px-6 py-12 transition-colors duration-300 dark:bg-zinc-900',
+				'relative min-h-screen bg-amber-50 px-6 py-12 duration-300 dark:bg-zinc-900',
 				className,
 			)}
 		>

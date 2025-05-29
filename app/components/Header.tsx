@@ -27,7 +27,7 @@ export function Header() {
 							to="https://github.com/glitchassassin/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-amber-900 transition-colors hover:text-amber-700 dark:text-stone-300 dark:hover:text-stone-100"
+							className="text-amber-900 hover:text-amber-700 dark:text-stone-300 dark:hover:text-stone-100"
 							title="GitHub"
 						>
 							<svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,7 @@ export function Header() {
 							to="https://discord.gg/KGasvrBumy"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-amber-900 transition-colors hover:text-amber-700 dark:text-stone-300 dark:hover:text-stone-100"
+							className="text-amber-900 hover:text-amber-700 dark:text-stone-300 dark:hover:text-stone-100"
 							title="Covenant Foundry Discord"
 						>
 							<svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
@@ -63,14 +63,14 @@ export function Header() {
 						<div className="mt-4 flex items-center gap-4 font-mono text-sm text-amber-700 dark:text-amber-300">
 							<Link
 								to="/curriculum-vitae"
-								className="font-medium transition-colors hover:text-amber-900 dark:hover:text-amber-100"
+								className="font-medium hover:text-amber-900 dark:hover:text-amber-100"
 							>
 								Curriculum Vitae
 							</Link>
 							<span>•</span>
 							<Link
 								to="/portfolio"
-								className="font-medium transition-colors hover:text-amber-900 dark:hover:text-amber-100"
+								className="font-medium hover:text-amber-900 dark:hover:text-amber-100"
 							>
 								Portfolio
 							</Link>

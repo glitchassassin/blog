@@ -28,7 +28,7 @@ export function BlogPost({
 				{category && (
 					<Link
 						to={`/categories/${slugify(category)}`}
-						className="text-xs font-medium tracking-wide text-amber-700 uppercase transition-colors hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
+						className="text-xs font-medium tracking-wide text-amber-700 uppercase hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
 					>
 						{category}
 					</Link>
@@ -36,7 +36,7 @@ export function BlogPost({
 			</div>
 			{href ? (
 				<Link to={href}>
-					<h2 className="mb-4 cursor-pointer font-serif text-2xl text-amber-900 transition-colors hover:text-amber-700 dark:text-stone-100 dark:hover:text-stone-200">
+					<h2 className="mb-4 cursor-pointer font-serif text-2xl text-amber-900 hover:text-amber-700 dark:text-stone-100 dark:hover:text-stone-200">
 						{title}
 					</h2>
 				</Link>
@@ -53,7 +53,7 @@ export function BlogPost({
 					<Link key={tag} to={`/tags/${slugify(tag)}`}>
 						<Badge
 							variant="secondary"
-							className="transition-colors hover:bg-amber-300 hover:text-amber-900 dark:hover:bg-zinc-600"
+							className="hover:bg-amber-300 hover:text-amber-900 dark:hover:bg-zinc-600"
 						>
 							{tag}
 						</Badge>

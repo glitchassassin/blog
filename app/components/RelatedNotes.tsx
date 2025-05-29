@@ -28,7 +28,7 @@ export function RelatedNotes({ relatedNotes }: RelatedNotesProps) {
 								{note.category && (
 									<Link
 										to={`/categories/${slugify(note.category)}`}
-										className="text-xs font-medium tracking-wide text-amber-700 uppercase transition-colors hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
+										className="text-xs font-medium tracking-wide text-amber-700 uppercase hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
 									>
 										{note.category}
 									</Link>
@@ -40,7 +40,7 @@ export function RelatedNotes({ relatedNotes }: RelatedNotesProps) {
 								)}
 							</div>
 
-							<h3 className="mb-3 font-serif text-lg text-amber-900 transition-colors group-hover:text-amber-700 dark:text-stone-100 dark:group-hover:text-stone-200">
+							<h3 className="mb-3 font-serif text-lg text-amber-900 group-hover:text-amber-700 dark:text-stone-100 dark:group-hover:text-stone-200">
 								<Link to={`/notes/${note.slug}`} className="block">
 									{note.title}
 								</Link>
@@ -67,7 +67,7 @@ export function RelatedNotes({ relatedNotes }: RelatedNotesProps) {
 										<Link key={tag} to={`/tags/${slugify(tag)}`}>
 											<Badge
 												variant="secondary"
-												className="transition-colors hover:bg-amber-300 hover:text-amber-900 dark:hover:bg-zinc-600"
+												className="hover:bg-amber-300 hover:text-amber-900 dark:hover:bg-zinc-600"
 											>
 												{tag}
 											</Badge>
