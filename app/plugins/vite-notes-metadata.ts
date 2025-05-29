@@ -206,6 +206,20 @@ export const tagSlugToLabel = notes.reduce((acc, note) => {
 	return acc
 }, {})
 
+// Get related notes based on category
+export function getRelatedNotes(note, limit = 3) {
+	if (!note?.category) {
+		return []
+	}
+	
+	return notes
+		.filter(n => 
+			n.slug !== note.slug && 
+			n.category === note.category
+		)
+		.slice(0, limit)
+}
+
 // Helper function for slugifying (re-exported)
 function slugify(text) {
 	return text

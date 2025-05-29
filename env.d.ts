@@ -19,6 +19,12 @@ declare module 'virtual:notes-metadata' {
 	export const notesByTagSlug: Record<string, NoteMetadata[]>
 	export const categorySlugToLabel: Record<string, string>
 	export const tagSlugToLabel: Record<string, string>
+
+	// Exported functions
+	export function getRelatedNotes(
+		note: NoteMetadata,
+		limit?: number,
+	): NoteMetadata[]
 }
 
 declare module 'virtual:portfolio-metadata' {
