@@ -22,12 +22,9 @@ Content is managed through GitHub, with MDX support for rich content creation.
 ### Content Management
 
 - [x] MDX support for rich content
-- [ ] Draft posts support
-- [ ] Scheduled posts
 - [ ] Custom MDX components
 - [x] Code syntax highlighting
 - [ ] Image optimization and lazy loading
-- [ ] Table of contents generation
 - [ ] Reading time estimates
 - [x] Portfolio section
 - [x] CV page
@@ -40,7 +37,6 @@ Content is managed through GitHub, with MDX support for rich content creation.
 - [x] Category/Tag system with paginated lists
 - [ ] Related posts suggestions
 - [ ] Social sharing buttons
-- [ ] Newsletter subscription
 - [ ] Comments system (GitHub Discussions)
 - [ ] Progress bar for reading
 - [ ] Accessible navigation

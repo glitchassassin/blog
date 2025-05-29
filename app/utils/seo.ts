@@ -38,13 +38,14 @@ export function generateSEOMeta(config: SEOConfig) {
 		{ name: 'robots', content: 'index, follow' },
 	]
 
-	// Add image if provided
-	if (config.image) {
-		meta.push(
-			{ property: 'og:image', content: config.image },
-			{ name: 'twitter:image', content: config.image },
-		)
-	}
+	// Add image (use default if none provided)
+	const domain = new URL(config.url).origin
+	const imageUrl =
+		domain + (config.image ?? '/assets/images/site-feature-image-optimized.png')
+	meta.push(
+		{ property: 'og:image', content: imageUrl },
+		{ name: 'twitter:image', content: imageUrl },
+	)
 
 	// Add article-specific tags
 	if (config.type === 'article') {
