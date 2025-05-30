@@ -50,6 +50,7 @@
     "zod": "^3.25.23"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@epic-web/config": "^1.21.0",
     "@playwright/test": "^1.52.0",
     "@react-router/dev": "^7.5.3",
@@ -60,6 +61,7 @@
     "@types/react-dom": "^19.1.2",
     "aws-cdk": "^2.1016.1",
     "aws-cdk-lib": "^2.197.0",
+    "axe-core": "^4.10.3",
     "constructs": "^10.4.2",
     "eslint": "^9.27.0",
     "patch-package": "^8.0.0",

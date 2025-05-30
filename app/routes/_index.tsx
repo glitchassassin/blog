@@ -107,7 +107,7 @@ export default function Home() {
 			<Header />
 
 			{/* Posts */}
-			<main className="space-y-12">
+			<main id="main-content" className="space-y-12">
 				{currentPosts.map((post) => (
 					<BlogPost
 						key={post.filePath}

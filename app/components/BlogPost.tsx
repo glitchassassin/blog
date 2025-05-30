@@ -28,18 +28,21 @@ export function BlogPost({
 				{category && (
 					<Link
 						to={`/categories/${slugify(category)}`}
-						className="text-xs font-medium tracking-wide text-amber-700 uppercase hover:text-amber-900 dark:text-amber-500 dark:hover:text-amber-300"
+						className="rounded text-xs font-medium tracking-wide text-amber-700 uppercase hover:text-amber-900 focus:text-amber-900 focus:outline-2 focus:outline-offset-2 focus:outline-amber-500 dark:text-amber-500 dark:hover:text-amber-300 dark:focus:text-amber-300 dark:focus:outline-amber-400"
 					>
 						{category}
 					</Link>
 				)}
 			</div>
 			{href ? (
-				<Link to={href}>
-					<h2 className="mb-4 cursor-pointer font-serif text-2xl text-amber-900 hover:text-amber-700 dark:text-stone-100 dark:hover:text-stone-200">
+				<h2 className="mb-4 font-serif text-2xl">
+					<Link
+						to={href}
+						className="rounded text-amber-900 hover:text-amber-700 focus:text-amber-700 focus:outline-2 focus:outline-offset-2 focus:outline-amber-500 dark:text-stone-100 dark:hover:text-stone-200 dark:focus:text-stone-200 dark:focus:outline-amber-400"
+					>
 						{title}
-					</h2>
-				</Link>
+					</Link>
+				</h2>
 			) : (
 				<h2 className="mb-4 font-serif text-2xl text-amber-900 dark:text-stone-100">
 					{title}
@@ -48,18 +51,25 @@ export function BlogPost({
 			<p className="mb-4 leading-relaxed text-amber-800 dark:text-stone-200">
 				{excerpt}
 			</p>
-			<div className="flex gap-2 text-xs">
-				{tags.map((tag) => (
-					<Link key={tag} to={`/tags/${slugify(tag)}`}>
-						<Badge
-							variant="secondary"
-							className="hover:bg-amber-300 hover:text-amber-900 dark:hover:bg-zinc-600"
+			{tags.length > 0 && (
+				<div className="flex gap-2 text-xs" aria-label="Post tags">
+					{tags.map((tag) => (
+						<Link
+							key={tag}
+							to={`/tags/${slugify(tag)}`}
+							className="rounded focus:outline-2 focus:outline-offset-2 focus:outline-amber-500 dark:focus:outline-amber-400"
+							aria-label={`View posts tagged with ${tag}`}
 						>
-							{tag}
-						</Badge>
-					</Link>
-				))}
-			</div>
+							<Badge
+								variant="secondary"
+								className="hover:bg-amber-300 hover:text-amber-900 dark:hover:bg-zinc-600"
+							>
+								{tag}
+							</Badge>
+						</Link>
+					))}
+				</div>
+			)}
 		</article>
 	)
 }
