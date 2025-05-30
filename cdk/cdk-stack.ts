@@ -4,14 +4,19 @@ import * as cdk from 'aws-cdk-lib'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch'
+import * as cloudwatchActions from 'aws-cdk-lib/aws-cloudwatch-actions'
 import * as events from 'aws-cdk-lib/aws-events'
 import * as targets from 'aws-cdk-lib/aws-events-targets'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs'
+import * as logs from 'aws-cdk-lib/aws-logs'
 import * as route53 from 'aws-cdk-lib/aws-route53'
 import * as route53targets from 'aws-cdk-lib/aws-route53-targets'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment'
+import * as sns from 'aws-cdk-lib/aws-sns'
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions'
 import { type Construct } from 'constructs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -23,7 +28,14 @@ export class CdkStack extends cdk.Stack {
 		// Set absolute path to the lambda.ts handler
 		const entry = path.join(__dirname, '../server/lambda.ts')
 
-		// Create Lambda function for React Router
+		// Create custom log group for Lambda function
+		const lambdaLogGroup = new logs.LogGroup(this, 'LambdaLogGroup', {
+			logGroupName: '/aws/lambda/ReactRouterHandler',
+			retention: logs.RetentionDays.ONE_MONTH,
+			removalPolicy: cdk.RemovalPolicy.DESTROY,
+		})
+
+		// Create Lambda function for React Router with Lambda Insights enabled
 		const lambdaFunction = new nodejs.NodejsFunction(
 			this,
 			'ReactRouterHandler',
@@ -43,6 +55,8 @@ export class CdkStack extends cdk.Stack {
 				environment: {
 					NODE_ENV: 'production',
 				},
+				insightsVersion: lambda.LambdaInsightsVersion.VERSION_1_0_333_0,
+				logGroup: lambdaLogGroup,
 			},
 		)
 
@@ -200,8 +214,185 @@ function handler(event) {
 			),
 		})
 
+		// ====== MONITORING SETUP ======
+
+		// Create SNS topic for performance alerts
+		const alertTopic = new sns.Topic(this, 'PerformanceAlerts', {
+			displayName: 'Blog Performance Alerts',
+		})
+
+		// Create CloudWatch Dashboard
+		const dashboard = new cloudwatch.Dashboard(this, 'PerformanceDashboard', {
+			dashboardName: 'Blog-Performance-Monitoring',
+		})
+
+		// Define Lambda metrics
+		const lambdaDuration = lambdaFunction.metricDuration({
+			statistic: 'Average',
+			period: cdk.Duration.minutes(5),
+		})
+		const lambdaInvocations = lambdaFunction.metricInvocations({
+			period: cdk.Duration.minutes(5),
+		})
+		const lambdaErrors = lambdaFunction.metricErrors({
+			period: cdk.Duration.minutes(5),
+		})
+		const lambdaThrottles = lambdaFunction.metricThrottles({
+			period: cdk.Duration.minutes(5),
+		})
+
+		// Define CloudFront metrics
+		const cloudFrontRequests = new cloudwatch.Metric({
+			namespace: 'AWS/CloudFront',
+			metricName: 'Requests',
+			dimensionsMap: {
+				DistributionId: distribution.distributionId,
+			},
+			statistic: 'Sum',
+			period: cdk.Duration.minutes(5),
+		})
+
+		const cloudFrontOriginLatency = new cloudwatch.Metric({
+			namespace: 'AWS/CloudFront',
+			metricName: 'OriginLatency',
+			dimensionsMap: {
+				DistributionId: distribution.distributionId,
+			},
+			statistic: 'Average',
+			period: cdk.Duration.minutes(5),
+		})
+
+		const cloudFront4xxErrors = new cloudwatch.Metric({
+			namespace: 'AWS/CloudFront',
+			metricName: '4xxErrorRate',
+			dimensionsMap: {
+				DistributionId: distribution.distributionId,
+			},
+			statistic: 'Average',
+			period: cdk.Duration.minutes(5),
+		})
+
+		const cloudFront5xxErrors = new cloudwatch.Metric({
+			namespace: 'AWS/CloudFront',
+			metricName: '5xxErrorRate',
+			dimensionsMap: {
+				DistributionId: distribution.distributionId,
+			},
+			statistic: 'Average',
+			period: cdk.Duration.minutes(5),
+		})
+
+		// Add widgets to dashboard
+		dashboard.addWidgets(
+			new cloudwatch.GraphWidget({
+				title: 'Lambda Performance',
+				left: [lambdaDuration, lambdaInvocations],
+				right: [lambdaErrors, lambdaThrottles],
+				width: 12,
+				height: 6,
+			}),
+			new cloudwatch.GraphWidget({
+				title: 'CloudFront Performance',
+				left: [cloudFrontRequests, cloudFrontOriginLatency],
+				right: [cloudFront4xxErrors, cloudFront5xxErrors],
+				width: 12,
+				height: 6,
+			}),
+		)
+
+		// Create performance alarms
+
+		// Lambda high latency alarm (> 3 seconds average)
+		const highLatencyAlarm = new cloudwatch.Alarm(this, 'HighLatencyAlarm', {
+			metric: lambdaDuration,
+			threshold: 3000, // 3 seconds in milliseconds
+			evaluationPeriods: 2,
+			datapointsToAlarm: 2,
+			treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+			alarmDescription: 'Lambda function average latency is above 3 seconds',
+			alarmName: 'Blog-Lambda-HighLatency',
+		})
+		highLatencyAlarm.addAlarmAction(new cloudwatchActions.SnsAction(alertTopic))
+
+		// Lambda high error rate alarm (> 5 errors in 10 minutes)
+		const highErrorRateAlarm = new cloudwatch.Alarm(
+			this,
+			'HighErrorRateAlarm',
+			{
+				metric: lambdaErrors,
+				threshold: 5,
+				evaluationPeriods: 2,
+				datapointsToAlarm: 1,
+				treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+				alarmDescription:
+					'Lambda function error count is above 5 in 10 minutes',
+				alarmName: 'Blog-Lambda-HighErrors',
+			},
+		)
+		highErrorRateAlarm.addAlarmAction(
+			new cloudwatchActions.SnsAction(alertTopic),
+		)
+
+		// Lambda throttling alarm
+		const throttleAlarm = new cloudwatch.Alarm(this, 'ThrottleAlarm', {
+			metric: lambdaThrottles,
+			threshold: 1,
+			evaluationPeriods: 1,
+			treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+			alarmDescription: 'Lambda function is being throttled',
+			alarmName: 'Blog-Lambda-Throttles',
+		})
+		throttleAlarm.addAlarmAction(new cloudwatchActions.SnsAction(alertTopic))
+
+		// CloudFront high error rate alarm (> 5% 5xx errors)
+		const cloudFrontErrorAlarm = new cloudwatch.Alarm(
+			this,
+			'CloudFrontErrorAlarm',
+			{
+				metric: cloudFront5xxErrors,
+				threshold: 5, // 5% error rate
+				evaluationPeriods: 2,
+				datapointsToAlarm: 2,
+				treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+				alarmDescription: 'CloudFront 5xx error rate is above 5%',
+				alarmName: 'Blog-CloudFront-HighErrors',
+			},
+		)
+		cloudFrontErrorAlarm.addAlarmAction(
+			new cloudwatchActions.SnsAction(alertTopic),
+		)
+
+		// CloudFront high origin latency alarm (> 5 seconds)
+		const cloudFrontLatencyAlarm = new cloudwatch.Alarm(
+			this,
+			'CloudFrontLatencyAlarm',
+			{
+				metric: cloudFrontOriginLatency,
+				threshold: 5000, // 5 seconds in milliseconds
+				evaluationPeriods: 3,
+				datapointsToAlarm: 2,
+				treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+				alarmDescription: 'CloudFront origin latency is above 5 seconds',
+				alarmName: 'Blog-CloudFront-HighLatency',
+			},
+		)
+		cloudFrontLatencyAlarm.addAlarmAction(
+			new cloudwatchActions.SnsAction(alertTopic),
+		)
+
+		// Output useful information
 		new cdk.CfnOutput(this, 'DistributionDomainName', {
 			value: distribution.domainName,
+		})
+
+		new cdk.CfnOutput(this, 'DashboardUrl', {
+			value: `https://${this.region}.console.aws.amazon.com/cloudwatch/home?region=${this.region}#dashboards:name=Blog-Performance-Monitoring`,
+			description: 'CloudWatch Dashboard URL',
+		})
+
+		new cdk.CfnOutput(this, 'SNSTopicArn', {
+			value: alertTopic.topicArn,
+			description: 'SNS Topic ARN for performance alerts',
 		})
 	}
 }

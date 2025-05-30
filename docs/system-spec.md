@@ -47,7 +47,7 @@ Content is managed through GitHub, with MDX support for rich content creation.
   - [x] Twitter cards
 - [x] RSS/Atom feed
 - [x] Sitemap generation
-- [ ] Performance monitoring
+- [x] Performance monitoring
 - [ ] Web Vitals tracking
 - [ ] Error tracking
 - [ ] Caching strategies
