@@ -4,3 +4,5 @@ globs:
 alwaysApply: true
 ---
 Prefer "??" to "||"
+
+Prefer "outline" styles for focused elements over "ring"

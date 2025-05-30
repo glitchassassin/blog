@@ -76,7 +76,7 @@ export default function Search({
 		<PageLayout theme="botany">
 			<Header />
 
-			<main>
+			<main id="main-content">
 				{/* Search Results Header */}
 				<div className="mb-8">
 					{query ? (
@@ -104,7 +104,7 @@ export default function Search({
 
 				{/* Search Results */}
 				{results.length > 0 ? (
-					<div className="space-y-12">
+					<section className="space-y-12" aria-label="Search results">
 						{results.map((post) => (
 							<BlogPost
 								key={post.filePath}
@@ -116,7 +116,7 @@ export default function Search({
 								href={`/notes/${post.slug}`}
 							/>
 						))}
-					</div>
+					</section>
 				) : query ? (
 					<div className="py-12 text-center">
 						<p className="text-lg text-amber-700 dark:text-stone-300">

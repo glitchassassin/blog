@@ -36,9 +36,7 @@ Content is managed through GitHub, with MDX support for rich content creation.
 - [x] Search functionality
 - [x] Category/Tag system with paginated lists
 - [x] Related posts suggestions
-- [ ] Comments system (GitHub Discussions)
-- [ ] Progress bar for reading
-- [ ] Accessible navigation
+- [x] Accessible navigation
 
 ### Performance & SEO
 
