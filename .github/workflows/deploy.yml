@@ -155,7 +155,83 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: CDK Deploy
-        run: npx cdk deploy --require-approval never
+        run:
+          npx cdk deploy --require-approval never --outputs-file
+          cdk-outputs.json
         env:
           CDK_DEPLOY_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
           CDK_DEPLOY_REGION: ${{ env.AWS_REGION }}
+
+      - name: Display Deployment Outputs
+        run: |
+          echo "🚀 Deployment completed successfully!"
+          echo ""
+          echo "📊 **Deployment Outputs:**"
+          echo ""
+
+          # Check if outputs file exists
+          if [ -f cdk-outputs.json ]; then
+            # Extract and display each output nicely
+            DISTRIBUTION_DOMAIN=$(jq -r '.CdkStack.DistributionDomainName // "Not available"' cdk-outputs.json)
+            DASHBOARD_URL=$(jq -r '.CdkStack.DashboardUrl // "Not available"' cdk-outputs.json)
+            SNS_TOPIC_ARN=$(jq -r '.CdkStack.SNSTopicArn // "Not available"' cdk-outputs.json)
+            
+            echo "🌐 **CloudFront Distribution:**"
+            echo "   Domain: $DISTRIBUTION_DOMAIN"
+            echo ""
+            echo "📈 **Monitoring Dashboard:**"
+            echo "   URL: $DASHBOARD_URL"
+            echo ""
+            echo "📧 **Alerts Topic:**"
+            echo "   SNS ARN: $SNS_TOPIC_ARN"
+            echo ""
+            echo "✨ **Quick Access Links:**"
+            echo "   • Blog: https://jonwinsley.com"
+            echo "   • Dashboard: $DASHBOARD_URL"
+            echo ""
+            echo "📋 **Raw CDK Outputs:**"
+            cat cdk-outputs.json | jq '.'
+          else
+            echo "❌ CDK outputs file not found"
+          fi
+
+      - name: Set Job Outputs
+        id: deployment
+        run: |
+          if [ -f cdk-outputs.json ]; then
+            # Set outputs that can be used by other jobs/steps
+            echo "distribution-domain=$(jq -r '.CdkStack.DistributionDomainName // ""' cdk-outputs.json)" >> $GITHUB_OUTPUT
+            echo "dashboard-url=$(jq -r '.CdkStack.DashboardUrl // ""' cdk-outputs.json)" >> $GITHUB_OUTPUT
+            echo "sns-topic-arn=$(jq -r '.CdkStack.SNSTopicArn // ""' cdk-outputs.json)" >> $GITHUB_OUTPUT
+            echo "deployment-success=true" >> $GITHUB_OUTPUT
+          else
+            echo "deployment-success=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Deployment Summary
+        run: |
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f cdk-outputs.json ]; then
+            DISTRIBUTION_DOMAIN=$(jq -r '.CdkStack.DistributionDomainName // "Not available"' cdk-outputs.json)
+            DASHBOARD_URL=$(jq -r '.CdkStack.DashboardUrl // "Not available"' cdk-outputs.json)
+            SNS_TOPIC_ARN=$(jq -r '.CdkStack.SNSTopicArn // "Not available"' cdk-outputs.json)
+            
+            echo "### ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Resource | Value |" >> $GITHUB_STEP_SUMMARY
+            echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| 🌐 **Blog URL** | https://jonwinsley.com |" >> $GITHUB_STEP_SUMMARY
+            echo "| 📊 **CloudFront Domain** | \`$DISTRIBUTION_DOMAIN\` |" >> $GITHUB_STEP_SUMMARY
+            echo "| 📈 **Monitoring Dashboard** | [Open Dashboard]($DASHBOARD_URL) |" >> $GITHUB_STEP_SUMMARY
+            echo "| 📧 **SNS Topic ARN** | \`$SNS_TOPIC_ARN\` |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 🔧 Quick Actions" >> $GITHUB_STEP_SUMMARY
+            echo "- [🌐 Visit Blog](https://jonwinsley.com)" >> $GITHUB_STEP_SUMMARY
+            echo "- [📊 View Performance Dashboard]($DASHBOARD_URL)" >> $GITHUB_STEP_SUMMARY
+            echo "- [📧 Subscribe to Alerts](https://console.aws.amazon.com/sns/v3/home?region=us-east-1#/topic/$SNS_TOPIC_ARN)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Deployment Failed" >> $GITHUB_STEP_SUMMARY
+            echo "CDK outputs were not generated properly." >> $GITHUB_STEP_SUMMARY
+          fi
