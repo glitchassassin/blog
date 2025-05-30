@@ -2,8 +2,8 @@ import { Outlet, useLoaderData } from 'react-router'
 import { portfolioBySlug } from 'virtual:portfolio-metadata'
 import { Footer } from '#app/components/Footer'
 import { MDXContent } from '#app/components/mdx/MDXContent'
-import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
+import { PortfolioHeader } from '#app/components/PortfolioHeader'
 import { SITE_TITLE } from '#app/data'
 import { type PortfolioMetadata } from '#app/plugins/vite-portfolio-metadata'
 import { generateSEOMeta } from '#app/utils/seo'
@@ -52,8 +52,8 @@ export default function PortfolioLayout() {
 
 	return (
 		<PageLayout theme="botany">
-			<NoteHeader
-				note={portfolioMetadata}
+			<PortfolioHeader
+				project={portfolioMetadata}
 				backLink={{
 					url: '/portfolio',
 					label: 'Portfolio',
