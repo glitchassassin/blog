@@ -1,5 +1,4 @@
 import Fuse from 'fuse.js'
-import { useLoaderData } from 'react-router'
 import { searchIndex, type SearchIndexEntry } from 'virtual:notes-metadata'
 import { BlogPost } from '#app/components/BlogPost'
 import { Footer } from '#app/components/Footer'

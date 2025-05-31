@@ -1,4 +1,3 @@
-import { type LoaderFunctionArgs } from 'react-router'
 import { SITE_TITLE, SITE_DESCRIPTION } from '#app/data'
 
 interface WebManifestIcon {
@@ -18,7 +17,7 @@ interface WebManifest {
 	icons: WebManifestIcon[]
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
 	const manifest: WebManifest = {
 		name: SITE_TITLE,
 		short_name: SITE_TITLE,

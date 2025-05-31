@@ -132,7 +132,6 @@ test.describe('Portfolio', () => {
 
 test.describe('RSS Feed', () => {
 	test('should serve RSS feed with valid XML and content', async ({
-		page,
 		request,
 	}) => {
 		// Use request context instead of page.goto to avoid download issues

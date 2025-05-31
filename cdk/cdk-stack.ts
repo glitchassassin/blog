@@ -16,7 +16,6 @@ import * as route53targets from 'aws-cdk-lib/aws-route53-targets'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment'
 import * as sns from 'aws-cdk-lib/aws-sns'
-import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions'
 import { type Construct } from 'constructs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

@@ -149,10 +149,7 @@ test.describe('Keyboard Navigation', () => {
 })
 
 test.describe('Focus Management', () => {
-	test('should have visible focus indicators', async ({
-		page,
-		browserName,
-	}) => {
+	test('should have visible focus indicators', async ({ page }) => {
 		await page.goto('/')
 
 		// Tab through focusable elements and check for focus styles
