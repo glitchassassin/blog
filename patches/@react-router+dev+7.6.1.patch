@@ -1,0 +1,19 @@
+diff --git a/node_modules/@react-router/dev/dist/cli/index.js b/node_modules/@react-router/dev/dist/cli/index.js
+index 1fb15d4..ba7eb4a 100644
+--- a/node_modules/@react-router/dev/dist/cli/index.js
++++ b/node_modules/@react-router/dev/dist/cli/index.js
+@@ -1136,9 +1136,13 @@ function getRouteAnnotations({
+ }
+ function relativeImportSource(from, to) {
+   let path8 = Path3.relative(Path3.dirname(from), to);
++  let extension = Path3.extname(path8);
+   path8 = Path3.join(Path3.dirname(path8), Pathe.filename(path8));
+   if (!path8.startsWith("../")) path8 = "./" + path8;
+-  return path8 + ".js";
++  if (!extension || /\.(js|ts)x?$/.test(extension)) {
++    extension = ".js";
++  }
++  return path8 + extension;
+ }
+ function rootDirsPath(ctx, typesPath) {
+   const rel = Path3.relative(typesDirectory(ctx), typesPath);
