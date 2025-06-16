@@ -63,7 +63,7 @@
     "aws-cdk-lib": "^2.200.1",
     "axe-core": "^4.10.3",
     "constructs": "^10.4.2",
-    "eslint": "^9.28.0",
+    "eslint": "^9.29.0",
     "patch-package": "^8.0.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
