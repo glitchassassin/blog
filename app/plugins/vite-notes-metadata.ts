@@ -14,6 +14,7 @@ const FrontmatterSchema = z
 		category: z.string().optional(),
 		excerpt: z.string().optional(),
 		tags: z.array(z.string()).optional(),
+		featureImage: z.string().optional(),
 	})
 	.passthrough() // Allow additional properties
 

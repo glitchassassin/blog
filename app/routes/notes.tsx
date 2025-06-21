@@ -46,6 +46,7 @@ export function meta({ data, location, matches }: Route.MetaArgs) {
 		description: data?.noteMetadata?.excerpt || SITE_DESCRIPTION,
 		url,
 		type: 'article',
+		image: data?.noteMetadata?.featureImage,
 		publishedTime: data?.noteMetadata?.date
 			? new Date(data.noteMetadata.date).toISOString()
 			: undefined,

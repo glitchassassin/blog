@@ -11,7 +11,6 @@ const FrontmatterSchema = z
 		date: z.string().optional(),
 		excerpt: z.string().optional(),
 		featureImage: z.string().optional(),
-		image: z.string().optional(), // Support legacy image field
 	})
 	.passthrough() // Allow additional properties
 
@@ -61,9 +60,6 @@ export function portfolioMetadataPlugin() {
 				const portfolioMetadata = {
 					slug,
 					...frontmatterResult.data,
-					// Map image to featureImage if featureImage is not already set
-					featureImage:
-						frontmatterResult.data.featureImage || frontmatterResult.data.image,
 					filePath: filePath.replace('app/', '/'),
 				}
 

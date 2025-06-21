@@ -44,6 +44,7 @@ export function meta({ data, location, matches }: Route.MetaArgs) {
 			data?.portfolioMetadata?.excerpt || 'Portfolio project by Jon Winsley',
 		url,
 		type: 'article',
+		image: data?.portfolioMetadata?.featureImage,
 	})
 }
 
