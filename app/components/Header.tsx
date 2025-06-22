@@ -1,9 +1,11 @@
-import { Link, Form, useSearchParams } from 'react-router'
+import { Link, Form, useSearchParams, useNavigation } from 'react-router'
 import { SITE_TITLE } from '#app/data'
 
 export function Header() {
 	const [searchParams] = useSearchParams()
-	const currentQuery = searchParams.get('q') || ''
+	const currentQuery = searchParams.get('q') ?? ''
+	const navigation = useNavigation()
+	const isNavigating = navigation.state === 'loading'
 
 	return (
 		<header className="mb-16 border-b border-amber-300 pb-8 dark:border-zinc-700">
@@ -133,7 +135,8 @@ export function Header() {
 							name="q"
 							defaultValue={currentQuery}
 							placeholder="Search..."
-							className="w-full rounded-md border border-amber-300 bg-amber-100/70 py-2 pr-4 pl-10 text-sm focus:border-transparent focus:outline-2 focus:outline-amber-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-stone-200 dark:placeholder-stone-400 dark:focus:outline-amber-400"
+							disabled={isNavigating}
+							className="w-full rounded-md border border-amber-300 bg-amber-100/70 py-2 pr-4 pl-10 text-sm focus:border-transparent focus:outline-2 focus:outline-amber-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-stone-200 dark:placeholder-stone-400 dark:focus:outline-amber-400"
 						/>
 					</Form>
 				</div>

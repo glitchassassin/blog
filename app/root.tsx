@@ -10,6 +10,7 @@ import {
 
 import { type Route } from './+types/root'
 import './app.css'
+import { ProgressBar } from './components/ProgressBar'
 import { SITE_TITLE } from './data'
 import { ClientHintCheck, getHints } from './utils/client-hints'
 import { getDomainUrl } from './utils/misc'
@@ -158,6 +159,7 @@ export default function App() {
 
 	return (
 		<Document theme={theme}>
+			<ProgressBar />
 			<Outlet />
 		</Document>
 	)
