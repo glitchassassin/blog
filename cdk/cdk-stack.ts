@@ -147,6 +147,29 @@ function handler(event) {
 			},
 		)
 
+		// Create custom cache policy for Lambda responses (aggressive caching)
+		const lambdaCachePolicy = new cloudfront.CachePolicy(
+			this,
+			'LambdaCachePolicy',
+			{
+				cachePolicyName: 'LambdaAggressiveCaching',
+				comment:
+					'Aggressive caching policy for Lambda responses serving static content',
+				defaultTtl: cdk.Duration.days(1), // Cache for 1 day by default
+				maxTtl: cdk.Duration.days(30), // Maximum cache time of 30 days
+				minTtl: cdk.Duration.minutes(5), // Minimum cache time of 5 minutes
+				enableAcceptEncodingGzip: true,
+				enableAcceptEncodingBrotli: true,
+				headerBehavior: cloudfront.CacheHeaderBehavior.allowList(
+					'Accept',
+					'Accept-Language',
+					'User-Agent',
+				),
+				queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
+				cookieBehavior: cloudfront.CacheCookieBehavior.none(),
+			},
+		)
+
 		// Create CloudFront distribution
 		const distribution = new cloudfront.Distribution(this, 'Distribution', {
 			domainNames: ['jonwinsley.com', 'www.jonwinsley.com'],
@@ -158,7 +181,7 @@ function handler(event) {
 				cachedMethods: cloudfront.CachedMethods.CACHE_GET_HEAD_OPTIONS,
 				originRequestPolicy:
 					cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
-				cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+				cachePolicy: lambdaCachePolicy,
 				functionAssociations: [
 					{
 						function: wwwRedirectFunction,
@@ -191,7 +214,7 @@ function handler(event) {
 			destinationBucket: staticBucket,
 			destinationKeyPrefix: 'assets',
 			distribution,
-			distributionPaths: ['/assets/*'],
+			distributionPaths: ['/assets/*', '/*'], // Invalidate both assets and all paths
 			memoryLimit: 256,
 		})
 
