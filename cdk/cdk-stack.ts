@@ -166,7 +166,10 @@ function handler(event) {
 					'User-Agent',
 				),
 				queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
-				cookieBehavior: cloudfront.CacheCookieBehavior.none(),
+				cookieBehavior: cloudfront.CacheCookieBehavior.allowList(
+					'CH-prefers-color-scheme',
+					'CH-time-zone',
+				),
 			},
 		)
 
