@@ -57,7 +57,7 @@
     "@react-router/dev": "^7.6.3",
     "@tailwindcss/vite": "^4.1.11",
     "@types/mdx": "^2.0.13",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "aws-cdk": "^2.1020.2",
