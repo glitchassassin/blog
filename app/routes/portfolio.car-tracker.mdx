@@ -1,0 +1,95 @@
+---
+title: 'Car Tracker'
+date: October 2, 2025
+excerpt: Our church does an annual Single Moms' Oil Change, an outreach ministry to show the love of Jesus to single moms, widows, and wives of deployed service members. This year, I spun up an app to track cars through the flow.
+featureImage: /assets/images/car-tracker-screenshot.png
+---
+
+The Single Moms' Oil Change is one of our largest ministry events. This year, our volunteers ran thirteen oil change bays and serviced eighty-six vehicles over about four and a half hours. We hosted the ladies in our gym with refreshments, conversation, and a place for their kids to play while they waited.
+
+We've been refining our processes each year to make things run smoothly. This year, I spun up an app to track cars through the flow, so we could display cars' statuses on a projector in the gym, and also get some process metrics on the side.
+
+## The Process
+
+We have the ladies register ahead of time online so we can make sure we have the correct oil and filters on hand for their vehicles. When they arrive, they sign a waiver and hand over their keys at the registration desk in exchange for a numbered tag. A valet takes the keys and compares the vehicle to the registration paperwork before pulling it into one of the oil change bays (or parks it in a temporary staging area, if all the bays are currently full).
+
+At the oil change bay (our "On Deck" status), the valet hands off the paperwork to the oil change technicians, who fetch the oil and filter for the vehicle and begin the service. Once the oil change is complete, another valet takes the paperwork from the technicians, pulls the car out of the bay, and parks it.
+
+Finally, the valet hands off the paperwork and keys to a desk in the gym, where the ladies can turn in their numbered tag and pick up their keys.
+
+The paper-driven flow worked well enough in prior years, but didn't make it easy to find where a car was in the process. There were even a couple cases where a vehicle was "lost" and someone had to track down the keys and paperwork! When vehicles were ready to pick up, someone would announce the vehicle number over the gym's loudspeakers, which could put unintended pressure on ladies to leave. We wanted them to feel welcome to stay if they were enjoying themselves.
+
+This year, we decided to run a status-tracking app on a couple of tablets to keep track of where cars were at from registration to handoff. We set up a projector screen in the gym, so the ladies could see when their cars were ready and pick them up at their leisure. These all needed to be connected to update in real time.
+
+## Vibe Coding
+
+I have been working on [a starter kit for my projects](https://github.com/glitchassassin/freedom-seed) and this was an excellent opportunity to test it. React Router 7 on Cloudflare Workers, along with Cloudflare Durable Objects for real-time Websocket updates, would give us a good platform for the app.
+
+I didn't expect to be able to vibe code _everything_ - I'm too picky to go without manually reviewing and tweaking things - but I wanted to see how far I could get.
+
+I began with the PRD (project requirements document) pattern, explaining what I was after to Cursor and going back and forth to refine a Markdown document with a fairly comprehensive set of requirements. This would provide context for Cursor's agent mode to build things out.
+
+Then, I split the PRD up into implementation phases, to build out one at a time. For each phase, I began with a set of tests written in plain English:
+
+```
+## Test Plan 1: Car Journey Flow via Queues
+
+**Description:** Tests the full journey of a car through all status phases with
+different volunteers handling each transition. Cars are selected from the queues
+
+**Test Flow:**
+
+1. **Setup:**
+   - Create a test car using `createCar()` with unique license plate
+   - Store the created car ID for use throughout the test
+2. **Registration Phase:**
+   - Navigate to `/`
+   - Select Registration mode
+   - Verify the created car appears in PRE_ARRIVAL queue
+   - Select the created car from queue to navigate to details page
+   - Verify car details display correctly
+   - Click "Register Car" button
+   - Verify user is automatically redirected to `/registration`
+3. **Floor Phase:**
+   - Navigate to `/`
+   - Select Floor mode
+   - Verify the created car appears in REGISTERED queue
+   - Select the created car from queue to navigate to details page
+   - Verify car details display correctly
+   - Click "Start Service" button
+   - Verify user is automatically redirected to `/floor`
+4. **Handoff Phase:**
+   - Navigate to `/`
+   - Select Handoff mode
+   - Verify the created car appears in ON_DECK queue
+   - Select the created car from queue to navigate to details page
+   - Verify car details display correctly
+   - Click "Ready for Pickup" button
+   - Verify user is automatically redirected to `/handoff`
+5. **Cleanup:**
+   - Delete the test car using `deleteCar()` with the stored car ID
+```
+
+I provided Cursor with the implementation plan and the test plan, and told it to implement the current phase, along with Playwright end-to-end tests that covered the test plan. Then, I kicked back and watched what it came up with.
+
+It was not perfect. I found requirements that I had been missing, and several times just scrapped the whole attempt, went back and updated the requirements, and had Cursor begin again. It felt kind of like planting a seed to see what it would sprout into. After several iterations of this, it became clear that _some_ pruning would always be necessary.
+
+But with the right context and feedback, Cursor was able to handle everything in the project, even the Cloudflare websocket endpoints, with very little hand-written code on my part. The end-to-end tests confirmed the code's quality, and when the day came, everything ran without a hitch.
+
+## The App
+
+I enjoy React Router's simple form/loader/action paradigm. In this case, I opted for explicitly-defined routes rather than file-based routing, because it was easier for Cursor to get correct the first time. I ran it on Cloudflare Workers, since the serverless platform would be free for the negligible traffic we'd be generating, and Cloudflare's Durable Objects would give us the ability to synchronize with a websocket server.
+
+The websocket server itself was very simple: it just broadcasts an update any time a vehicle's status changes. On the client side, I created a React context with a listener for those updates and a React hook to trigger a revalidation if the current page had any data associated with that vehicle.
+
+Just in case, I added some extra logic for reliability, like warning of network failures and attempting to reconnect if the websocket connection drops.
+
+## The Results
+
+![Screenshot of the Registration screen of the car tracker app, showing some cars in pre-arrival status and two in staging](/assets/images/car-tracker-screenshot.png)
+
+We deployed the app on two tablets: one at registration (where the vehicle transitions from pre-registration to either the staging area or On Deck at the oil change bays) and one at the handoff desk (where the vehicle transitions from On Deck to Ready for Pickup, or from Ready to Picked Up). Another version on a laptop was running the dedicated projector screen.
+
+Between this and a couple other process improvements, everything ran very smoothly. When there were questions about a car, volunteers were able to look up the status on the tablet directly. I'm told the ladies appreciated having the status clearly displayed on the projector screen. And for those of us who are fascinated by numbers, I was able to pull some statistics after the fact:
+
+![A screen displaying time spent in the Staging status (minimum 1 minute, maximum 17 minutes, average 6 minutes); the On Deck status (minimum 16 minutes, maximum 1 hour 10 minutes, average 34 minutes); and the Ready for Pickup status (minimum 1 minute, maximum 1 hour 28 minutes, average 19 minutes).](/assets/images/car-tracker-stats.png)
