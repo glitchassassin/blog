@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from 'react-router'
+import { Link } from 'react-router'
 import {
 	notesByCategorySlug,
 	categorySlugToLabel,
@@ -20,7 +20,7 @@ import {
 import { SITE_TITLE } from '#app/data'
 import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
-import { type Route } from './+types/categories.$category'
+import type { Route } from './+types/categories.$category'
 
 export function meta({ params, location, matches }: Route.MetaArgs) {
 	const categoryName = categorySlugToLabel[params.category] ?? params.category
@@ -108,8 +108,8 @@ export function loader({ request, params }: Route.LoaderArgs) {
 	}
 }
 
-export default function CategoryPage() {
-	const {
+export default function CategoryPage({
+	loaderData: {
 		categoryName,
 		currentPage,
 		currentPosts,
@@ -120,8 +120,8 @@ export default function CategoryPage() {
 		visiblePages,
 		showPrevEllipsis,
 		showNextEllipsis,
-	} = useLoaderData<typeof loader>()
-
+	},
+}: Route.ComponentProps) {
 	const categoryUrl = `/categories/${slugify(categoryName)}`
 
 	return (

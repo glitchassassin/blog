@@ -1,4 +1,3 @@
-import { useLoaderData } from 'react-router'
 import { portfolio } from 'virtual:portfolio-metadata'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
@@ -16,7 +15,7 @@ import {
 import { SITE_TITLE } from '#app/data'
 import { getDomainUrl } from '#app/utils/misc'
 import { generateSEOMeta } from '#app/utils/seo'
-import { type Route } from './+types/portfolio_._index'
+import type { Route } from './+types/portfolio_._index'
 
 export function meta({ location, matches }: Route.MetaArgs) {
 	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
@@ -92,8 +91,8 @@ export function loader({ request }: Route.LoaderArgs) {
 	}
 }
 
-export default function Portfolio() {
-	const {
+export default function Portfolio({
+	loaderData: {
 		currentPage,
 		currentProjects,
 		totalProjects,
@@ -103,8 +102,8 @@ export default function Portfolio() {
 		visiblePages,
 		showPrevEllipsis,
 		showNextEllipsis,
-	} = useLoaderData<typeof loader>()
-
+	},
+}: Route.ComponentProps) {
 	return (
 		<PageLayout theme="botany">
 			<Header />

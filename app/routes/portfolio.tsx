@@ -1,13 +1,13 @@
-import { Outlet, useLoaderData } from 'react-router'
+import type { PortfolioMetadata } from 'plugins/vite-portfolio-metadata'
+import { Outlet } from 'react-router'
 import { portfolioBySlug } from 'virtual:portfolio-metadata'
 import { Footer } from '#app/components/Footer'
 import { MDXContent } from '#app/components/mdx/MDXContent'
 import { PageLayout } from '#app/components/PageLayout'
 import { PortfolioHeader } from '#app/components/PortfolioHeader'
 import { SITE_TITLE } from '#app/data'
-import { type PortfolioMetadata } from '#app/plugins/vite-portfolio-metadata'
 import { generateSEOMeta } from '#app/utils/seo'
-import { type Route } from './+types/portfolio'
+import type { Route } from './+types/portfolio'
 
 export async function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url)
@@ -48,9 +48,9 @@ export function meta({ data, location, matches }: Route.MetaArgs) {
 	})
 }
 
-export default function PortfolioLayout() {
-	const { portfolioMetadata } = useLoaderData<typeof loader>()
-
+export default function PortfolioLayout({
+	loaderData: { portfolioMetadata },
+}: Route.ComponentProps) {
 	return (
 		<PageLayout theme="botany">
 			<PortfolioHeader

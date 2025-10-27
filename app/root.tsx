@@ -5,10 +5,9 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	useLoaderData,
 } from 'react-router'
 
-import { type Route } from './+types/root'
+import type { Route } from './+types/root'
 import './app.css'
 import { ProgressBar } from './components/ProgressBar'
 import { SITE_TITLE } from './data'
@@ -153,9 +152,8 @@ function Document({
 	)
 }
 
-export default function App() {
-	const data = useLoaderData<typeof loader>()
-	const theme = data.requestInfo.hints.theme
+export default function App({ loaderData }: Route.ComponentProps) {
+	const theme = loaderData.requestInfo.hints.theme
 
 	return (
 		<Document theme={theme}>

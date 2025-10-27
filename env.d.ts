@@ -5,9 +5,8 @@ declare module '*.mdx' {
 }
 
 declare module 'virtual:notes-metadata' {
-	type NoteMetadata = import('#app/plugins/vite-notes-metadata').NoteMetadata
-	type SearchIndexEntry =
-		import('#app/plugins/vite-notes-metadata').SearchIndexEntry
+	type NoteMetadata = import('plugins/vite-notes-metadata').NoteMetadata
+	type SearchIndexEntry = import('plugins/vite-notes-metadata').SearchIndexEntry
 
 	// Exported data
 	export const notes: NoteMetadata[]

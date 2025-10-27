@@ -1,3 +1,4 @@
+import { cloudflare } from '@cloudflare/vite-plugin'
 import mdx from '@mdx-js/rollup'
 import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
@@ -9,14 +10,15 @@ import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { notesMetadataPlugin } from './app/plugins/vite-notes-metadata'
-import { portfolioMetadataPlugin } from './app/plugins/vite-portfolio-metadata'
+import { notesMetadataPlugin } from './plugins/vite-notes-metadata'
+import { portfolioMetadataPlugin } from './plugins/vite-portfolio-metadata'
 
 export default defineConfig({
 	plugins: [
-		tailwindcss(),
 		notesMetadataPlugin(),
 		portfolioMetadataPlugin(),
+		cloudflare({ viteEnvironment: { name: 'ssr' } }),
+		tailwindcss(),
 		mdx({
 			remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
 			rehypePlugins: [

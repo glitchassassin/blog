@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react'
-import { type ComponentPropsWithoutRef } from 'react'
+import type {ComponentPropsWithoutRef} from 'react';
 import { Link } from 'react-router'
 
 // Custom link component that uses React Router Link for all links

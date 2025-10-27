@@ -1,14 +1,18 @@
 .DS_Store
 /node_modules/
+*.tsbuildinfo
 
 # React Router
 /.react-router/
 /build/
 
-# Generated files
-/app/generated/
+# Cloudflare
+.mf
+.wrangler
+.dev.vars*
 
 # Playwright
+node_modules/
 /test-results/
 /playwright-report/
 /blob-report/

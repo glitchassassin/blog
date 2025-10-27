@@ -1,108 +1,40 @@
 version: 2
 updates:
+  # npm dependencies
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'weekly'
       day: 'monday'
       time: '09:00'
-      timezone: 'UTC'
-    open-pull-requests-limit: 5
+    # Group by update types
+    groups:
+      # Group minor updates
+      minor-updates:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+
+      # Group major updates
+      major-updates:
+        patterns:
+          - '*'
+        update-types:
+          - 'major'
+
+      # Group patch updates for auto-merge
+      patch-updates:
+        patterns:
+          - '*'
+        update-types:
+          - 'patch'
+
+    # Auto-merge patch updates
+    open-pull-requests-limit: 10
     commit-message:
       prefix: 'chore'
       include: 'scope'
-    groups:
-      # React ecosystem - group all React-related packages
-      react-ecosystem:
-        patterns:
-          - 'react*'
-          - '@types/react*'
-          - '@react-router/*'
-          - 'react-router*'
-        update-types: ['minor', 'patch']
-
-      # MDX and content processing
-      mdx-content:
-        patterns:
-          - '@mdx-js/*'
-          - 'remark-*'
-          - 'rehype-*'
-          - 'gray-matter'
-        update-types: ['minor', 'patch']
-
-      # AWS CDK packages
-      aws-cdk:
-        patterns:
-          - 'aws-cdk*'
-          - '@aws-cdk/*'
-          - 'constructs'
-        update-types: ['minor', 'patch']
-
-      # UI and styling
-      ui-styling:
-        patterns:
-          - 'tailwind*'
-          - '@tailwindcss/*'
-          - 'lucide-react'
-          - '@radix-ui/*'
-          - 'class-variance-authority'
-          - 'clsx'
-          - 'tailwind-merge'
-          - 'tw-animate-css'
-        update-types: ['minor', 'patch']
-
-      # Testing tools
-      testing:
-        patterns:
-          - '@playwright/*'
-          - '@axe-core/*'
-          - 'axe-core'
-        dependency-type: 'development'
-        update-types: ['minor', 'patch']
-
-      # Build and dev tools
-      dev-tools:
-        patterns:
-          - 'vite*'
-          - '@tailwindcss/vite'
-          - 'vite-tsconfig-paths'
-          - 'eslint*'
-          - 'prettier*'
-          - '@epic-web/config'
-          - 'patch-package'
-        dependency-type: 'development'
-        update-types: ['minor', 'patch']
-
-      # TypeScript and types
-      typescript:
-        patterns:
-          - 'typescript'
-          - '@types/*'
-        dependency-type: 'development'
-        update-types: ['minor', 'patch']
-
-      # Safe patch updates - these can be auto-merged
-      patch-updates:
-        update-types: ['patch']
-        exclude-patterns:
-          # Exclude major ecosystem packages from auto-patch to avoid grouping conflicts
-          - 'react*'
-          - '@react-router/*'
-          - 'aws-cdk*'
-          - '@mdx-js/*'
-
-      # Utility libraries
-      utilities:
-        patterns:
-          - '@conform-to/*'
-          - '@epic-web/client-hints'
-          - '@nasa-gcn/remix-seo'
-          - 'fuse.js'
-          - 'glob'
-          - 'highlight.js'
-          - 'isbot'
-          - 'zod'
-        update-types: ['minor', 'patch']
 
   # GitHub Actions dependencies
   - package-ecosystem: 'github-actions'
@@ -111,12 +43,11 @@ updates:
       interval: 'weekly'
       day: 'monday'
       time: '09:00'
-      timezone: 'UTC'
-    commit-message:
-      prefix: 'chore'
-      include: 'scope'
     groups:
-      actions:
+      github-actions:
         patterns:
           - '*'
-        update-types: ['minor', 'patch']
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'ci'
+      include: 'scope'

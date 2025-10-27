@@ -1,4 +1,3 @@
-import { useLoaderData } from 'react-router'
 import { notes } from 'virtual:notes-metadata'
 import { BlogPost } from '#app/components/BlogPost'
 import { Footer } from '#app/components/Footer'
@@ -15,7 +14,7 @@ import {
 } from '#app/components/ui/pagination'
 import { SITE_DESCRIPTION, SITE_TITLE } from '#app/data'
 import { generateSEOMeta } from '#app/utils/seo'
-import { type Route } from './+types/_index'
+import type { Route } from './+types/_index'
 
 export function meta({ location, matches }: Route.MetaArgs) {
 	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
@@ -89,8 +88,8 @@ export function loader({ request }: Route.LoaderArgs) {
 	}
 }
 
-export default function Home() {
-	const {
+export default function Home({
+	loaderData: {
 		currentPage,
 		currentPosts,
 		totalPosts,
@@ -100,8 +99,8 @@ export default function Home() {
 		visiblePages,
 		showPrevEllipsis,
 		showNextEllipsis,
-	} = useLoaderData<typeof loader>()
-
+	},
+}: Route.ComponentProps) {
 	return (
 		<PageLayout theme="botany">
 			<Header />

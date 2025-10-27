@@ -1,12 +1,15 @@
 {
-	"extends": ["@epic-web/config/typescript"],
-	"include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
+	"files": [],
+	"references": [
+		{ "path": "./tsconfig.node.json" },
+		{ "path": "./tsconfig.cloudflare.json" }
+	],
 	"compilerOptions": {
-		"types": ["node", "vite/client", "mdx"],
-		"rootDirs": [".", "./.react-router/types"],
-		"paths": {
-			"#app/*": ["./app/*"],
-			"#tests/*": ["./tests/*"]
-		}
+		"checkJs": true,
+		"verbatimModuleSyntax": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"noEmit": true,
+		"types": ["./worker-configuration.d.ts"]
 	}
 }
