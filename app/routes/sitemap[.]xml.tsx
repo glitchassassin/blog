@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs } from 'react-router'
+import type {LoaderFunctionArgs} from 'react-router';
 import { notes } from 'virtual:notes-metadata'
 import { portfolio } from 'virtual:portfolio-metadata'
 import { getDomainUrl } from '#app/utils/misc'

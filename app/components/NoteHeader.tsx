@@ -1,7 +1,7 @@
+import { formatReadingTime } from 'plugins/utils/reading-time'
 import { Link } from 'react-router'
-import { type NoteMetadata } from 'virtual:notes-metadata'
+import type { NoteMetadata } from 'virtual:notes-metadata'
 import { SITE_TITLE } from '#app/data'
-import { formatReadingTime } from '#app/utils/reading-time'
 import { slugify } from '#app/utils/slugify'
 
 interface NoteHeaderProps {

@@ -1,4 +1,5 @@
-import { Outlet, useLoaderData } from 'react-router'
+import type { NoteMetadata } from 'plugins/vite-notes-metadata'
+import { Outlet } from 'react-router'
 import { notesBySlug, getRelatedNotes } from 'virtual:notes-metadata'
 import { Footer } from '#app/components/Footer'
 import { MDXContent } from '#app/components/mdx/MDXContent'
@@ -6,9 +7,8 @@ import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
 import { RelatedNotes } from '#app/components/RelatedNotes'
 import { SITE_DESCRIPTION, SITE_TITLE } from '#app/data'
-import { type NoteMetadata } from '#app/plugins/vite-notes-metadata'
 import { generateSEOMeta } from '#app/utils/seo'
-import { type Route } from './+types/notes'
+import type { Route } from './+types/notes'
 
 export async function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url)
@@ -54,9 +54,9 @@ export function meta({ data, location, matches }: Route.MetaArgs) {
 	})
 }
 
-export default function NotesLayout() {
-	const { noteMetadata, relatedNotes } = useLoaderData<typeof loader>()
-
+export default function NotesLayout({
+	loaderData: { noteMetadata, relatedNotes },
+}: Route.ComponentProps) {
 	return (
 		<PageLayout theme="botany">
 			<NoteHeader note={noteMetadata} />

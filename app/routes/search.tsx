@@ -1,12 +1,13 @@
 import Fuse from 'fuse.js'
-import { searchIndex, type SearchIndexEntry } from 'virtual:notes-metadata'
+import { searchIndex  } from 'virtual:notes-metadata'
+import type {SearchIndexEntry} from 'virtual:notes-metadata';
 import { BlogPost } from '#app/components/BlogPost'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
 import { PageLayout } from '#app/components/PageLayout'
 import { SITE_TITLE } from '#app/data'
 import { generateSEOMeta } from '#app/utils/seo'
-import { type Route } from './+types/search'
+import type {Route} from './+types/search';
 
 export function meta({ location, matches }: Route.MetaArgs) {
 	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'

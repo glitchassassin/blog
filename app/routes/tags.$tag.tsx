@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from 'react-router'
+import { Link } from 'react-router'
 import { notesByTagSlug, tagSlugToLabel } from 'virtual:notes-metadata'
 import { BlogPost } from '#app/components/BlogPost'
 import { DefaultErrorBoundary } from '#app/components/errors/DefaultErrorBoundary'
@@ -17,7 +17,7 @@ import {
 import { SITE_TITLE } from '#app/data'
 import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
-import { type Route } from './+types/tags.$tag'
+import type { Route } from './+types/tags.$tag'
 
 export function meta({ params, location, matches }: Route.MetaArgs) {
 	const tagName = tagSlugToLabel[params.tag] ?? params.tag
@@ -105,8 +105,8 @@ export function loader({ request, params }: Route.LoaderArgs) {
 	}
 }
 
-export default function TagPage() {
-	const {
+export default function TagPage({
+	loaderData: {
 		tagName,
 		currentPage,
 		currentPosts,
@@ -117,8 +117,8 @@ export default function TagPage() {
 		visiblePages,
 		showPrevEllipsis,
 		showNextEllipsis,
-	} = useLoaderData<typeof loader>()
-
+	},
+}: Route.ComponentProps) {
 	const tagUrl = `/tags/${slugify(tagName)}`
 
 	return (

@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from 'react-router'
+import { Link } from 'react-router'
 import { notesByTagSlug } from 'virtual:notes-metadata'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
@@ -7,7 +7,7 @@ import { SITE_TITLE } from '#app/data'
 import { getDomainUrl } from '#app/utils/misc'
 import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
-import { type Route } from './+types/tags._index'
+import type { Route } from './+types/tags._index'
 
 export function meta({ location, matches }: Route.MetaArgs) {
 	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
@@ -36,9 +36,9 @@ export function loader({ request }: Route.LoaderArgs) {
 	}
 }
 
-export default function TagsIndex() {
-	const { tags } = useLoaderData<typeof loader>()
-
+export default function TagsIndex({
+	loaderData: { tags },
+}: Route.ComponentProps) {
 	return (
 		<PageLayout theme="botany">
 			<Header />

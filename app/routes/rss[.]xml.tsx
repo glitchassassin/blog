@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs } from 'react-router'
+import type {LoaderFunctionArgs} from 'react-router';
 import { notes } from 'virtual:notes-metadata'
 import { SITE_DESCRIPTION, SITE_TITLE } from '#app/data'
 import { getDomainUrl } from '#app/utils/misc'

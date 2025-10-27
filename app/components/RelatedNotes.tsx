@@ -1,6 +1,6 @@
+import type { NoteMetadata } from 'plugins/vite-notes-metadata'
 import { Link } from 'react-router'
 import { Badge } from '#app/components/ui/badge'
-import { type NoteMetadata } from '#app/plugins/vite-notes-metadata'
 import { slugify } from '#app/utils/slugify'
 
 interface RelatedNotesProps {

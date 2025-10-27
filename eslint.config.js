@@ -4,7 +4,21 @@ import { config as defaultConfig } from '@epic-web/config/eslint'
 export default [
 	...defaultConfig,
 	{
-		ignores: ['.react-router/**'],
+		rules: {
+			// Enforce separate type imports consistently
+			'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+			'import/no-duplicates': ['error', { 'prefer-inline': false }],
+		},
+	},
+	{
+		ignores: [
+			'.react-router/**',
+			'.wrangler/**',
+			'playwright-report/**',
+			'test-results/**',
+			'worker-configuration.d.ts',
+			'node_modules/**',
+		],
 	},
 	{
 		files: ['*.d.ts'],

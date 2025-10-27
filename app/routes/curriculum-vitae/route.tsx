@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { PageLayout } from '#app/components/PageLayout'
 import { SITE_TITLE } from '#app/data'
 import { generateSEOMeta } from '#app/utils/seo'
-import { type Route } from './+types/route'
+import type {Route} from './+types/route';
 import printStyles from './print.module.css'
 
 export function meta({ location, matches }: Route.MetaArgs) {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { type PortfolioMetadata } from 'virtual:portfolio-metadata'
+import type {PortfolioMetadata} from 'virtual:portfolio-metadata';
 import { SITE_TITLE } from '#app/data'
 
 interface PortfolioHeaderProps {

@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from 'react-router'
+import { Link } from 'react-router'
 import { notesByCategorySlug } from 'virtual:notes-metadata'
 import { Footer } from '#app/components/Footer'
 import { Header } from '#app/components/Header'
@@ -6,7 +6,7 @@ import { PageLayout } from '#app/components/PageLayout'
 import { SITE_TITLE } from '#app/data'
 import { generateSEOMeta } from '#app/utils/seo'
 import { slugify } from '#app/utils/slugify'
-import { type Route } from './+types/categories._index'
+import type { Route } from './+types/categories._index'
 
 export function meta({ location, matches }: Route.MetaArgs) {
 	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
@@ -34,9 +34,9 @@ export function loader() {
 	}
 }
 
-export default function CategoriesIndex() {
-	const { categories } = useLoaderData<typeof loader>()
-
+export default function CategoriesIndex({
+	loaderData: { categories },
+}: Route.ComponentProps) {
 	return (
 		<PageLayout theme="botany">
 			<Header />

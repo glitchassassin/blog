@@ -3,7 +3,7 @@ import { notesBySlug } from 'virtual:notes-metadata'
 import { DefaultErrorBoundary } from '#app/components/errors/DefaultErrorBoundary'
 import { SITE_TITLE } from '#app/data'
 import { generateSEOMeta } from '#app/utils/seo'
-import { type Route } from './+types/$'
+import type { Route } from './+types/$'
 
 export async function loader({ params }: Route.LoaderArgs) {
 	const splatPath = params['*'] ?? ''
