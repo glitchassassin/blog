@@ -18,7 +18,7 @@
 		},
 	],
 	"vars": {
-		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare",
+		"ENVIRONMENT": "production",
 	},
 	"observability": {
 		"enabled": true,
