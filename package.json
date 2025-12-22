@@ -22,7 +22,7 @@
     "typecheck": "npm run cf-typegen && react-router typegen && tsc -b"
   },
   "dependencies": {
-    "@conform-to/react": "^1.15.0",
+    "@conform-to/react": "^1.15.1",
     "@conform-to/zod": "^1.15.0",
     "@epic-web/client-hints": "^1.3.8",
     "@mdx-js/react": "^3.1.1",
