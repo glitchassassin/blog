@@ -1,0 +1,57 @@
+---
+layout: post
+title: "Toolbox of Destiny: Life as Code"
+date: 2025-12-30 20:40:00
+author: Jon Winsley
+summary: It's easier than ever to organize your life as code with the help of LLMs. I'm crafting an ever-evolving bespoke app to improve in targeted ways.
+---
+
+For a long time I have been organizing life stuff in Obsidian and making do with the limitations of Markdown. 
+
+Then I realized, actually, it's just as easy to make it pretty with HTML and just tell the AI what changes to make instead of sorting through the markup myself. 
+
+And since AI makes it so easy to whip up tools for tracking workouts (or anything else)... I can just encode my life organization as a webapp, host the data, and build whatever automation I need.
+
+2026 is the year I roll my own... well, everything.
+
+![Dashboard with title Toolbox of Destiny](Pasted image 20251230112906.png)
+
+Mine is a React Router app hosted on Cloudflare, backed by a D1 sqlite database, secured by Cloudflare Access so I don't need to worry about building in auth. I'm the only user, after all. But I like to access my tools from my desktop, laptop, and/or phone.
+
+Unlike many of my projects, this isn't open source. It's not meant for you. Yours will look very different from mine. But if you like the idea, here's some inspiration:
+
+## Tools!
+
+This began as a place to host simple tools - my workout tracker, initially, and then an app to help me practice dry-fire drills under pressure of time and chaos.
+
+"Vibe engineering" makes it easy to whip up these one-off tools, complete with test cases. You *could* buy a generic app from the store (probably with a monthly subscription to unlock the features you need)... or you could create your own, perfectly suited to your individual needs.
+
+Friction is the enemy of consistency. And since you're building for yourself, you can eliminate a lot of friction that a developer designing for *everyone* is forced to work around. If you don't like something about your app, you can just change it - and then push straight to prod if you feel like it.
+
+## Dashboards!
+
+My initial draft of the dashboard pictured was a static HTML page that I'd update by telling Google Antigravity "add a new project with tasks....". I had an `AGENTS.md` rule instructing Antigravity to simply commit and push after every change. Simple, malleable, I could make it the default home page on all my devices, and it was super easy to change.
+
+Now, it's wired into my Toolbox, so I can do neat things like populating my weightlifting goal progress from my Workout Tracker's stats.
+
+## The Future!
+
+Cursor, Antigravity, and LLMs in general have made a ton of bespoke applications possible that would have been infeasible six years ago. Not that you *couldn't* have done this then; but it would have been exhausting to keep it updated as your life changes (see above re: friction).
+
+Now, there are dozens of possibilities. A few that come to mind:
+
+- A bespoke budgeting app that ingests your transactions, categorizes them according to your rules with an LLM, and displays the budget exactly how you need it
+- An MCP interface, so your LLM of choice (or a chat interface in the app) can interact with your tools/data directly
+- A guided Daily Kickoff or Wrap-Up ritual to orient yourself for work
+- Track dietary intake (perhaps with LLM support to translate meals to macros)
+- A personal relationship management system - always remember your mom's birthday
+
+Since this may be a long-lived personal project, don't forget good code hygiene: make refactoring easy, make a plan for database migrations, set up good automated tests and a deployment pipeline that checks for issues. Set up agent rules to keep your LLM's development style on track. Minimize the amount of time you spend fixing issues.
+
+## Malleable Software
+
+There are limits, of course.
+
+I'm not going to replace my email client... or calendars... and probably not even Obsidian. It's great for what it does.
+
+But my imagination is expanding every time I stop myself from saying "nah, that's too much work" and instead say "well, let's give it a shot and see how it goes."
