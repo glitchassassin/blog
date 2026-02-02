@@ -7,6 +7,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  checks: read
 
 jobs:
   dependabot-auto-merge:
@@ -41,6 +42,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           timeoutSeconds: 600
           intervalSeconds: 10
+
+      - name: Checkout repository
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' &&
+          steps.wait-for-ci.outputs.conclusion == 'success' &&
+          steps.wait-for-playwright.outputs.conclusion == 'success'
+        uses: actions/checkout@v6
 
       - name: Auto-merge patch updates
         if: |
