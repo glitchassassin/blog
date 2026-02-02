@@ -9,24 +9,18 @@ updates:
       time: '09:00'
     # Group by update types
     groups:
-      # Group minor updates
+      # Group all minor updates together
       minor-updates:
-        patterns:
-          - '*'
         update-types:
           - 'minor'
 
-      # Group major updates
+      # Group all major updates together
       major-updates:
-        patterns:
-          - '*'
         update-types:
           - 'major'
 
-      # Group patch updates for auto-merge
+      # Group all patch updates together for auto-merge
       patch-updates:
-        patterns:
-          - '*'
         update-types:
           - 'patch'
 
