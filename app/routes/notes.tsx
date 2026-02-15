@@ -1,6 +1,7 @@
 import type { NoteMetadata } from 'plugins/vite-notes-metadata'
 import { Outlet } from 'react-router'
 import { notesBySlug, getRelatedNotes } from 'virtual:notes-metadata'
+import { Comments } from '#app/components/Comments'
 import { Footer } from '#app/components/Footer'
 import { MDXContent } from '#app/components/mdx/MDXContent'
 import { NoteHeader } from '#app/components/NoteHeader'
@@ -67,6 +68,8 @@ export default function NotesLayout({
 						<Outlet />
 					</MDXContent>
 				</article>
+
+				<Comments />
 
 				<RelatedNotes relatedNotes={relatedNotes} />
 			</main>
