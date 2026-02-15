@@ -7,6 +7,40 @@ on:
     branches: [main, master]
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      only-notes: ${{ steps.check.outputs.only-notes }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check if only notes files changed
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }})
+          else
+            CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          fi
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          NON_NOTES=$(echo "$CHANGED_FILES" | grep -v '^app/routes/notes\..*\.mdx$' || true)
+
+          if [ -z "$NON_NOTES" ] && [ -n "$CHANGED_FILES" ]; then
+            echo "only-notes=true" >> $GITHUB_OUTPUT
+            echo "Only notes files changed - playwright tests will be skipped"
+          else
+            echo "only-notes=false" >> $GITHUB_OUTPUT
+            echo "Non-notes files changed - playwright tests will run"
+          fi
+
   ci:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -30,6 +64,8 @@ jobs:
         run: npm run build
 
   playwright:
+    needs: [check-changes]
+    if: needs.check-changes.outputs.only-notes != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -60,7 +96,7 @@ jobs:
     timeout-minutes: 10
     if: false
     # if: github.event_name == 'pull_request'
-    needs: [ci, playwright]
+    needs: [ci, playwright, check-changes]
     outputs:
       preview-url: ${{ steps.extract-url.outputs.preview-url }}
 
@@ -112,10 +148,12 @@ jobs:
   deploy-production:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if:
-      github.event_name == 'push' && (github.ref == 'refs/heads/main' ||
-      github.ref == 'refs/heads/master')
-    needs: [ci, playwright]
+    if: |
+      !cancelled() &&
+      github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') &&
+      needs.ci.result == 'success' &&
+      (needs.playwright.result == 'success' || needs.playwright.result == 'skipped')
+    needs: [ci, playwright, check-changes]
 
     steps:
       - name: Check out code
