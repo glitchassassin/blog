@@ -15,6 +15,7 @@ const FrontmatterSchema = z
 		excerpt: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		featureImage: z.string().optional(),
+		draft: z.boolean().optional(),
 	})
 	.passthrough() // Allow additional properties
 
@@ -139,11 +140,15 @@ export function notesMetadataPlugin() {
 		return `// This file is auto-generated from notes.*.mdx files in app/routes/
 // Virtual module: ${virtualModuleId}
 
-export const notes = ${JSON.stringify(notesData, null, 2)}
+const allNotes = ${JSON.stringify(notesData, null, 2)}
 
-export const searchIndex = ${JSON.stringify(searchIndexData, null, 2)}
+// Published notes only (excludes drafts) - used for lists, feeds, and search
+export const notes = allNotes.filter(note => !note.draft)
 
-export const notesBySlug = notes.reduce((acc, note) => {
+export const searchIndex = ${JSON.stringify(searchIndexData, null, 2)}.filter(note => !note.draft)
+
+// notesBySlug includes all notes (including drafts) so drafts are directly visitable by URL
+export const notesBySlug = allNotes.reduce((acc, note) => {
 	acc[note.slug] = note
 	return acc
 }, {})
@@ -207,15 +212,15 @@ export const tagSlugToLabel = notes.reduce((acc, note) => {
 	return acc
 }, {})
 
-// Get related notes based on category
+// Get related notes based on category (excludes drafts)
 export function getRelatedNotes(note, limit = 3) {
 	if (!note?.category) {
 		return []
 	}
-	
+
 	return notes
-		.filter(n => 
-			n.slug !== note.slug && 
+		.filter(n =>
+			n.slug !== note.slug &&
 			n.category === note.category
 		)
 		.slice(0, limit)
