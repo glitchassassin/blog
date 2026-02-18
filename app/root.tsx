@@ -81,12 +81,6 @@ export const links: Route.LinksFunction = () => [
 		sizes: '32x32',
 		href: '/assets/favicon-32x32.png',
 	},
-	{
-		rel: 'icon',
-		type: 'image/png',
-		sizes: '48x48',
-		href: '/assets/favicon-48x48.png',
-	},
 
 	// Apple Touch Icon
 	{
