@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
-    "@cloudflare/vite-plugin": "^1.22.1",
+    "@cloudflare/vite-plugin": "^1.25.5",
     "@epic-web/config": "^1.24.0",
     "@playwright/test": "^1.58.1",
     "@react-router/dev": "^7.13.0",
@@ -76,7 +76,7 @@
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^6.1.1",
-    "wrangler": "^4.45.0"
+    "wrangler": "^4.68.1"
   },
   "postinstall": "patch-package"
 }
