@@ -29,7 +29,13 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }})
           else
-            CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+            BEFORE="${{ github.event.before }}"
+            if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
+              echo "only-notes=false" >> $GITHUB_OUTPUT
+              echo "Before commit not available - playwright tests will run"
+              exit 0
+            fi
+            CHANGED_FILES=$(git diff --name-only "$BEFORE" ${{ github.sha }})
           fi
 
           echo "Changed files:"
