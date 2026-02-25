@@ -93,7 +93,6 @@ body {
 }
 
 .prose pre {
-	@apply overflow-x-auto rounded-lg;
 }
 
 .prose code {
@@ -101,7 +100,7 @@ body {
 }
 
 .prose pre code {
-	@apply m-4 block min-w-min rounded-lg border-2 border-amber-300/70 bg-amber-50/70 p-4 text-zinc-700 shadow-lg dark:bg-zinc-900/70 dark:text-zinc-300;
+	@apply m-4 block overflow-x-auto border-2 border-amber-300/70 bg-amber-50/70 p-4 text-zinc-700 shadow-lg dark:bg-zinc-900/70 dark:text-zinc-300;
 }
 
 .prose pre code.language-md,
