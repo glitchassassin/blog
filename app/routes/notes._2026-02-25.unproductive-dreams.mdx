@@ -1,0 +1,84 @@
+---
+title: Unproductive Dreams
+date: February 25, 2026
+excerpt: I gave myself permission to be unproductive yesterday.
+category: ai
+---
+
+I gave myself permission to be unproductive yesterday.
+
+I have been juggling local Claude Code agents for a handful of different
+projects, running simultaneously, and switching back and forth as they need
+attention. I've been working on some strategies to improve my workflow here,
+surfacing the agents that need approval or are waiting for instructions - but
+that's productivity. We're here to talk about being unproductive.
+
+Specifically, imagining my agents at work!
+
+![three agents working on projects](/assets/images/dreaming-1.png)
+
+To do this, I'm taking a description of the project, the last 10 git commits,
+and a little more context from my notes of what I'm currently working on. This
+gets piped into a text model (currently, Gemini 3 Flash Preview) to generate a
+structured object:
+
+```ts
+export const sceneDescriptionSchema = z.object({
+ pose: z
+  .string()
+  .describe(
+   "The employee's physical pose and expression, e.g. 'hunched over laptop, brow furrowed' or 'leaning back with arms behind head, grinning'",
+  ),
+ attitude: z
+  .string()
+  .describe(
+   "One or two words for overall mood/energy, e.g. 'exhausted', 'triumphant', 'frantic'",
+  ),
+ items: z
+  .array(z.string())
+  .describe(
+   "Props the employee is actively interacting with, e.g. ['towering stack of sticky notes', 'half-empty coffee mug', 'rubber duck']",
+  ),
+ roomDetails: z
+  .array(z.string())
+  .describe(
+   "Notable details about the room that reflect project status, e.g. ['whiteboard covered in crossed-off tasks', 'sunlight streaming through window', 'overflowing bookshelf']",
+  ),
+})
+```
+
+If the git log shows no activity for a while, the agent's pose reflects this,
+and he will appear less and less engaged in his work.
+
+This gets turned into a prompt for Seedream 4.5:
+
+```ts
+function buildPrompt(scene: z.infer<typeof sceneDescriptionSchema>): string {
+ const items = scene.items.join(', ')
+ const room = scene.roomDetails.join('. ')
+ return `A young man ${scene.pose}, looking ${scene.attitude}, surrounded by ${items}. ${room}.`
+}
+```
+
+Then the prompt and a couple of reference images (themed for the specific
+project) are piped into Seedream to generate an image.
+
+<div style={{ display: 'flex' }}>
+ <img
+  alt="reference image of a man standing, anime style"
+  src="/assets/images/dreaming-2.png"
+  style={{ width: '50%' }}
+ />
+ <img
+  alt="reference image of a small office with a bookshelf, whiteboard, and desk"
+  src="/assets/images/dreaming-3.png"
+  style={{ width: '50%' }}
+ />
+</div>
+
+Then the images for the projects are just [collected into a web page and deployed to Cloudflare Pages](https://dreaming-24h.pages.dev/), AI image artifacts and all.
+
+Doing this for a single project isn't a big deal. Seedream costs about four
+cents an image. But multiply that times several projects, and if I'm updating
+the photos frequently, it adds up. So, I don't know that I'll keep this running
+indefinitely, but it's a fun experiment while it lasts!
