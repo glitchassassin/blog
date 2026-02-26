@@ -26,11 +26,10 @@ export function MDXLink({
 				to={href}
 				target="_blank"
 				rel="noopener noreferrer"
-				className="inline-flex items-center gap-1"
 				{...props}
 			>
 				{children}
-				<ExternalLink className="inline h-3 w-3 opacity-70" />
+				<ExternalLink className="inline h-3 w-3 opacity-70 ml-0.5" />
 			</Link>
 		)
 	}
