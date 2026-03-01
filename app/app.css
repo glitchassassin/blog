@@ -250,6 +250,58 @@ body {
 	}
 }
 
+/* ===== E-ink / slow-refresh display optimization ===== */
+/* Auto-detected via (update: slow) media query + inline script in root.tsx */
+/* Manual override: localStorage.setItem('eink-mode', 'true') and reload */
+/* Manual disable: localStorage.setItem('eink-mode', 'false') and reload */
+
+/* Remap amber palette to high-contrast neutrals for e-ink readability */
+html.eink,
+html.eink[class~='dark'] {
+	color-scheme: light;
+	--color-amber-50: #ffffff;
+	--color-amber-100: #f0f0f0;
+	--color-amber-200: #e0e0e0;
+	--color-amber-300: #bbbbbb;
+	--color-amber-400: #888888;
+	--color-amber-500: #555555;
+	--color-amber-600: #333333;
+	--color-amber-700: #333333;
+	--color-amber-800: #222222;
+	--color-amber-900: #111111;
+	--color-amber-950: #000000;
+}
+
+/* Force white background even when system prefers dark */
+html.eink,
+html.eink body {
+	background-color: #ffffff !important;
+	color: #111111 !important;
+	color-scheme: light !important;
+}
+
+/* Disable all motion and visual effects — e-ink refreshes are too slow */
+html.eink *,
+html.eink *::before,
+html.eink *::after {
+	transition-duration: 0s !important;
+	transition-delay: 0s !important;
+	animation-duration: 0s !important;
+	animation-delay: 0s !important;
+	box-shadow: none !important;
+	text-shadow: none !important;
+}
+
+/* Hide decorative background images that cause ghosting */
+html.eink .bg-decorative {
+	display: none !important;
+}
+
+/* Links must be underlined — color alone is unreliable on e-ink */
+html.eink .prose a {
+	text-decoration: underline !important;
+}
+
 /* Print Styles */
 @media print {
 	/* Reset colors for print */

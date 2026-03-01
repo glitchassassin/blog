@@ -22,7 +22,7 @@ export function PageLayout({
 			{/* Light mode background */}
 			<div
 				className={
-					'absolute inset-0 opacity-10 transition-opacity duration-1000 dark:hidden'
+					'bg-decorative absolute inset-0 opacity-10 transition-opacity duration-1000 dark:hidden'
 				}
 				style={{
 					backgroundImage: `url('/assets/images/${theme}.png')`,
@@ -34,7 +34,7 @@ export function PageLayout({
 			{/* Dark mode background */}
 			<div
 				className={
-					'absolute inset-0 hidden opacity-10 transition-opacity duration-1000 dark:block'
+					'bg-decorative absolute inset-0 hidden opacity-10 transition-opacity duration-1000 dark:block'
 				}
 				style={{
 					backgroundImage: `url('/assets/images/${theme}-dark.png')`,

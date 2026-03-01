@@ -14,12 +14,18 @@ import { SITE_TITLE } from './data'
 import { ClientHintCheck, getHints } from './utils/client-hints'
 import { getDomainUrl } from './utils/misc'
 
+function getIsEink(request: Request): boolean {
+	const cookieHeader = request.headers.get('Cookie') ?? ''
+	return cookieHeader.includes('eink-mode=true')
+}
+
 export async function loader({ request }: Route.LoaderArgs) {
 	return {
 		requestInfo: {
 			hints: getHints(request),
 		},
 		domainUrl: getDomainUrl(request),
+		isEink: getIsEink(request),
 	}
 }
 
@@ -119,17 +125,37 @@ export const links: Route.LinksFunction = () => [
 	},
 ]
 
+/**
+ * Inline script that detects e-ink displays and activates the .eink class
+ * before first paint. Checks (update: slow) media query and localStorage.
+ * Sets a cookie so the server can render the correct class on next visit.
+ */
+const einkDetectionScript = `(function(){try{
+var m=localStorage.getItem('eink-mode');
+var auto=window.matchMedia('(update:slow)').matches||window.matchMedia('(update:none)').matches;
+var on=m==='true'||(m!=='false'&&auto);
+if(on){
+document.documentElement.classList.add('eink');
+document.documentElement.classList.remove('dark');
+if(!document.cookie.includes('eink-mode=true'))document.cookie='eink-mode=true;path=/;max-age=31536000;SameSite=Lax';
+}else if(document.cookie.includes('eink-mode=true')){
+document.cookie='eink-mode=;path=/;max-age=0';
+}}catch(e){}})();`
+
 function Document({
 	children,
 	theme = 'light',
+	isEink = false,
 }: {
 	children: React.ReactNode
 	theme?: string
+	isEink?: boolean
 }) {
 	return (
-		<html lang="en" className={theme}>
+		<html lang="en" className={isEink ? 'eink' : theme}>
 			<head>
 				<ClientHintCheck />
+				<script dangerouslySetInnerHTML={{ __html: einkDetectionScript }} />
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="theme-color" content="#f59e0b" />
@@ -148,9 +174,10 @@ function Document({
 
 export default function App({ loaderData }: Route.ComponentProps) {
 	const theme = loaderData.requestInfo.hints.theme
+	const isEink = loaderData.isEink
 
 	return (
-		<Document theme={theme}>
+		<Document theme={theme} isEink={isEink}>
 			<ProgressBar />
 			<Outlet />
 		</Document>
