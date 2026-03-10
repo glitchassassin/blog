@@ -5,7 +5,8 @@
 		"react-router.config.ts",
 		"playwright.config.ts",
 		"e2e/**/*",
-		"plugins/**/*.ts"
+		"plugins/**/*.ts",
+		"scripts/**/*.ts"
 	],
 	"compilerOptions": {
 		"composite": true,
