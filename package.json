@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "react-router build",
+    "create:draft": "node scripts/create-draft.ts",
     "cf-typegen": "wrangler types",
     "deploy": "npm run build && wrangler deploy",
     "dev": "react-router dev",
