@@ -56,7 +56,7 @@ jobs:
       - name: Install Node.js and dependencies
         uses: bahmutov/npm-install@v1
         with:
-          node-version: 22
+          node-version: 22.12.0
 
       - name: Run linter
         run: npm run lint
@@ -80,7 +80,7 @@ jobs:
       - name: Install Node.js and dependencies
         uses: bahmutov/npm-install@v1
         with:
-          node-version: 22
+          node-version: 22.12.0
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -111,7 +111,7 @@ jobs:
       - name: Install Node.js and dependencies
         uses: bahmutov/npm-install@v1
         with:
-          node-version: 22
+          node-version: 22.12.0
 
       - name: Upload version to Cloudflare
         id: upload
@@ -166,7 +166,7 @@ jobs:
       - name: Install Node.js and dependencies
         uses: bahmutov/npm-install@v1
         with:
-          node-version: 22
+          node-version: 22.12.0
 
       - name: Build application
         run: npm run build
