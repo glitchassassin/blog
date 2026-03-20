@@ -9,15 +9,15 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig } from 'vite'
+import type { PluginOption } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { notesMetadataPlugin } from './plugins/vite-notes-metadata'
 import { portfolioMetadataPlugin } from './plugins/vite-portfolio-metadata'
 
-export default defineConfig({
-	plugins: [
+export default defineConfig(({ command }) => {
+	const plugins: PluginOption[] = [
 		notesMetadataPlugin(),
 		portfolioMetadataPlugin(),
-		cloudflare({ viteEnvironment: { name: 'ssr' } }),
 		tailwindcss(),
 		mdx({
 			remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
@@ -30,5 +30,11 @@ export default defineConfig({
 		}),
 		reactRouter(),
 		tsconfigPaths(),
-	],
+	]
+
+	if (command === 'serve') {
+		plugins.splice(2, 0, cloudflare({ viteEnvironment: { name: 'ssr' } }))
+	}
+
+	return { plugins }
 })
