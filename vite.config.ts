@@ -8,12 +8,19 @@ import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { notesMetadataPlugin } from './plugins/vite-notes-metadata'
 import { portfolioMetadataPlugin } from './plugins/vite-portfolio-metadata'
 
 export default defineConfig({
+	resolve: {
+		alias: {
+			'#app': fileURLToPath(new URL('./app', import.meta.url)),
+			'#tests': fileURLToPath(new URL('./tests', import.meta.url)),
+			plugins: fileURLToPath(new URL('./plugins', import.meta.url)),
+		},
+	},
 	plugins: [
 		notesMetadataPlugin(),
 		portfolioMetadataPlugin(),
@@ -29,6 +36,5 @@ export default defineConfig({
 			providerImportSource: '@mdx-js/react',
 		}),
 		reactRouter(),
-		tsconfigPaths(),
 	],
 })

@@ -1,29 +1,51 @@
-import { config as defaultConfig } from '@epic-web/config/eslint'
+import js from '@eslint/js'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
-/** @type {import("eslint").Linter.Config[]} */
-export default [
-	...defaultConfig,
-	{
-		rules: {
-			// Enforce separate type imports consistently
-			'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
-			'import/no-duplicates': ['error', { 'prefer-inline': false }],
-		},
-	},
+export default tseslint.config(
 	{
 		ignores: [
 			'.react-router/**',
 			'.wrangler/**',
+			'build/**',
 			'playwright-report/**',
 			'test-results/**',
 			'worker-configuration.d.ts',
 			'node_modules/**',
 		],
 	},
+	js.configs.recommended,
+	...tseslint.configs.recommended,
 	{
-		files: ['*.d.ts'],
+		files: ['**/*.{js,jsx,ts,tsx}'],
+		languageOptions: {
+			ecmaVersion: 'latest',
+			sourceType: 'module',
+			globals: {
+				...globals.browser,
+				...globals.node,
+			},
+		},
+		rules: {
+			'@typescript-eslint/consistent-type-imports': [
+				'error',
+				{ fixStyle: 'separate-type-imports' },
+			],
+			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{ argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+			],
+			'no-duplicate-imports': ['error', { allowSeparateTypeImports: true }],
+			'no-undef': 'off',
+			'no-unused-vars': 'off',
+			'prefer-const': 'off',
+		},
+	},
+	{
+		files: ['**/*.d.ts'],
 		rules: {
 			'@typescript-eslint/consistent-type-imports': 'off',
 		},
 	},
-]
+)
