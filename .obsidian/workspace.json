@@ -1,0 +1,235 @@
+{
+  "main": {
+    "id": "83a7962689f0a03d",
+    "type": "split",
+    "children": [
+      {
+        "id": "b6579eabcf00bd68",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5e7c83ad582eb405",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "app/routes/notes._2026-04-07.autoscreeps-the-first-failures.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "notes._2026-04-07.autoscreeps-the-first-failures"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c76873929a902bf6",
+    "type": "split",
+    "children": [
+      {
+        "id": "2144deba79cdaa09",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "69b10089c7050482",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "c18a07dfa1697a24",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "87754802cea6b2c5",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "ca4b2deda9ff66bc",
+    "type": "split",
+    "children": [
+      {
+        "id": "96659262952c564d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d491f7e21e636d05",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "app/routes/notes._2026-04-07.autoscreeps-the-first-failures.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for notes._2026-04-07.autoscreeps-the-first-failures"
+            }
+          },
+          {
+            "id": "a1058f1fd8bf336e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "app/routes/notes._2026-04-07.autoscreeps-the-first-failures.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from notes._2026-04-07.autoscreeps-the-first-failures"
+            }
+          },
+          {
+            "id": "c5ae9bf9c55bb379",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "217317df1e4a81f3",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "ccfd0d8fa1f735f4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "app/routes/notes._2026-04-07.autoscreeps-the-first-failures.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of notes._2026-04-07.autoscreeps-the-first-failures"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "zk-prefixer:Create new unique note": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "5e7c83ad582eb405",
+  "lastOpenFiles": [
+    "app/routes/notes._2026-06-08.obsidian-markdown-fixture.md",
+    "app/routes/notes._2026-04-07.autoscreeps-the-first-failures.md",
+    "Notes.base",
+    "templates/note-template.md",
+    "templates",
+    "app/routes/notes._2016-09-19.lackey-gui-automation-image-recognition.md",
+    "app/routes/notes._2026-03-20.2026-03-20-recent-reading.md",
+    "app/routes/notes._2026-03-31.prevent-npm-supply-chain-attacks.md",
+    "app/routes/notes._2026-04-03.2026-04-03-recent-reading.md",
+    "app/routes/notes._2026-04-06.introducing-autoscreeps.md",
+    "test-results",
+    "playwright-report/data/4439d6c8ca2e8264d9b0cd8dffde2accb428282b.md",
+    "playwright-report/data",
+    "test-results/obsidian-markdown-Obsidian-10cf0-n-style-syntax-in-MDX-notes-chromium/error-context.md",
+    "test-results/obsidian-markdown-Obsidian-10cf0-n-style-syntax-in-MDX-notes-chromium",
+    "build/server/assets/server-build-Nilni9ND.css",
+    "build/server/assets/server-build-wd8m-x1c.js",
+    "build/server/assets/giscus-Ci9LqPcC-DBayn6yC.js",
+    "build/server/assets/chunk-RMD3H4O3-jK3PNOXp.js",
+    "build/server/wrangler.json",
+    "build/client/assets/images/vscode-bell-settings.png",
+    "build/client/assets/images/telnet.png",
+    "build/client/assets/images/site-feature-image.png",
+    "build/client/assets/images/site-feature-image-optimized.png",
+    "build/client/assets/images/screeps2.png",
+    "build/client/assets/images/screeps.png",
+    "build/client/assets/images/screeps-stuck.png",
+    "build/client/assets/images/screeps-stats.png",
+    "build/client/assets/images/screeps-spawning-budget-1.png",
+    "build/client/assets/images/screeps-spawn-uptime-3.png",
+    "app/routes/notes._2019-08-29.designing-mmo-background.md",
+    "app/routes/notes._2020-10-29.screeps-decision-making.md",
+    "app/routes/notes._2020-07-30.pma-writeup-chapter-6.md",
+    "app/routes/notes._2020-09-21.screeps-game-plan.md",
+    "app/routes/notes._2026-02-15.riding-the-storm.md",
+    "app/routes/notes._2019-07-22.cucumber-parallel.md",
+    "app/routes/notes._2024-12-16.terminal-bell-long-commands.md",
+    "app/routes/notes._2022-04-18.screeps-arena-pressing-attack.md",
+    "app/routes/notes._2020-10-17.screeps-strategic-directives.md",
+    "app/routes/notes._2020-09-30.screeps-remote-mining-hurdles.md",
+    "app/routes/notes._2021-10-15.screeps-boost-moon.md",
+    "app/routes/notes._2022-07-25.screeps-discrete-objectives.md",
+    "app/routes/notes._2019-11-27.designing-mmo-server-architecture.md",
+    "app/routes/notes._2021-12-01.advent-of-code.md",
+    "app/routes/notes._2020-09-22.screeps-data-driven-development.md"
+  ]
+}

@@ -1,0 +1,16 @@
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.inFolder("app/routes")
+        - file.basename.startsWith("notes.")
+    order:
+      - file.basename
+      - title
+      - date
+      - category
+      - tags
+    sort:
+      - property: file.basename
+        direction: DESC

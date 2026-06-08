@@ -1,0 +1,5 @@
+{
+  "folder": "app/routes",
+  "format": "[notes._]YYYY-MM-DD[.untitled.md]",
+  "template": "templates/note-template"
+}
