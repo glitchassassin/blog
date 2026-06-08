@@ -20,8 +20,8 @@ The sitemap is automatically generated and includes:
 The sitemap automatically:
 
 - Discovers routes from the file system
-- Extracts blog posts from `notes._YYYY-MM-DD.slug.mdx` files
-- Extracts portfolio items from `portfolio.slug.mdx` files
+- Extracts blog posts from `notes._YYYY-MM-DD.slug.md` files
+- Extracts portfolio items from `portfolio.slug.md` files
 - Sets appropriate priorities and change frequencies
 - Includes last modification dates for blog posts
 

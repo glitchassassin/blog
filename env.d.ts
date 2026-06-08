@@ -1,4 +1,4 @@
-declare module '*.mdx' {
+declare module '*.md' {
 	let MDXComponent: (props: { components?: Record<string, any> }) => JSX.Element
 	export const frontmatter: any
 	export default MDXComponent

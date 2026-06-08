@@ -43,8 +43,8 @@ export function notesMetadataPlugin() {
 	let searchIndexData: SearchIndexEntry[] = []
 
 	const generateNotesMetadata = () => {
-		// Find all notes.*.mdx files in the routes directory
-		const noteFiles = glob.sync('app/routes/notes.*.mdx')
+		// Find all notes.*.md files in the routes directory
+		const noteFiles = glob.sync('app/routes/notes.*.md')
 		const validationErrors: string[] = []
 		notesData = []
 		searchIndexData = []
@@ -54,8 +54,8 @@ export function notesMetadataPlugin() {
 				const fileContent = readFileSync(filePath, 'utf-8')
 				const { data: frontmatter, content: mdxContent } = matter(fileContent)
 
-				// Extract the slug from filename (e.g., notes.entropy-code-thermodynamics.mdx -> entropy-code-thermodynamics)
-				const filename = path.basename(filePath, '.mdx')
+				// Extract the slug from filename (e.g., notes.entropy-code-thermodynamics.md -> entropy-code-thermodynamics)
+				const filename = path.basename(filePath, path.extname(filePath))
 				const slug = filename
 					.replace(/\._[^.]+\./, '.') // remove layout segments
 					.replace('notes.', '') // remove notes prefix
@@ -137,7 +137,7 @@ export function notesMetadataPlugin() {
 	}
 
 	const generateVirtualModuleContent = () => {
-		return `// This file is auto-generated from notes.*.mdx files in app/routes/
+		return `// This file is auto-generated from notes.*.md files in app/routes/
 // Virtual module: ${virtualModuleId}
 
 const allNotes = ${JSON.stringify(notesData, null, 2)}
@@ -263,8 +263,8 @@ function slugify(text) {
 			generateNotesMetadata()
 		},
 		handleHotUpdate({ file, server }: { file: string; server: any }) {
-			// Check if the changed file is a notes MDX file
-			if (file.includes('notes.') && file.endsWith('.mdx')) {
+			// Check if the changed file is a notes Markdown file
+			if (file.includes('notes.') && file.endsWith('.md')) {
 				console.log(`Notes file changed: ${file}`)
 				generateNotesMetadata()
 

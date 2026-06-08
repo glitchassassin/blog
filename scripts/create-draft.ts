@@ -18,13 +18,13 @@ const dateLabel = today.toLocaleDateString('en-US', {
 })
 
 let slug = 'untitled'
-let filename = `notes._${dateStr}.${slug}.mdx`
+let filename = `notes._${dateStr}.${slug}.md`
 let filepath = join(routesDir, filename)
 
 let counter = 2
 while (existsSync(filepath)) {
 	slug = `untitled-${counter}`
-	filename = `notes._${dateStr}.${slug}.mdx`
+	filename = `notes._${dateStr}.${slug}.md`
 	filepath = join(routesDir, filename)
 	counter++
 }

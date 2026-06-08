@@ -30,8 +30,8 @@ export function portfolioMetadataPlugin() {
 	let portfolioData: PortfolioMetadata[] = []
 
 	const generatePortfolioMetadata = () => {
-		// Find all portfolio.*.mdx files in the routes directory
-		const portfolioFiles = glob.sync('app/routes/portfolio.*.mdx')
+		// Find all portfolio.*.md files in the routes directory
+		const portfolioFiles = glob.sync('app/routes/portfolio.*.md')
 		const validationErrors: string[] = []
 		portfolioData = []
 
@@ -40,8 +40,8 @@ export function portfolioMetadataPlugin() {
 				const content = readFileSync(filePath, 'utf-8')
 				const { data: frontmatter } = matter(content)
 
-				// Extract the slug from filename (e.g., portfolio.project-name.mdx -> project-name)
-				const filename = path.basename(filePath, '.mdx')
+				// Extract the slug from filename (e.g., portfolio.project-name.md -> project-name)
+				const filename = path.basename(filePath, path.extname(filePath))
 				const slug = filename
 					.replace(/\._[^.]+\./, '.') // remove layout segments
 					.replace('portfolio.', '') // remove portfolio prefix
@@ -110,7 +110,7 @@ export function portfolioMetadataPlugin() {
 	}
 
 	const generateVirtualModuleContent = () => {
-		return `// This file is auto-generated from portfolio.*.mdx files in app/routes/
+		return `// This file is auto-generated from portfolio.*.md files in app/routes/
 // Virtual module: ${virtualModuleId}
 
 export const portfolio = ${JSON.stringify(portfolioData, null, 2)}
@@ -138,8 +138,8 @@ export const portfolioBySlug = portfolio.reduce((acc, project) => {
 			generatePortfolioMetadata()
 		},
 		handleHotUpdate({ file, server }: { file: string; server: any }) {
-			// Check if the changed file is a portfolio MDX file
-			if (file.includes('portfolio.') && file.endsWith('.mdx')) {
+			// Check if the changed file is a portfolio Markdown file
+			if (file.includes('portfolio.') && file.endsWith('.md')) {
 				console.log(`Portfolio file changed: ${file}`)
 				generatePortfolioMetadata()
 

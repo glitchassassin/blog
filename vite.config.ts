@@ -10,6 +10,7 @@ import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
+import { remarkObsidian } from './plugins/remark-obsidian'
 import { notesMetadataPlugin } from './plugins/vite-notes-metadata'
 import { portfolioMetadataPlugin } from './plugins/vite-portfolio-metadata'
 
@@ -27,7 +28,13 @@ export default defineConfig({
 		cloudflare({ viteEnvironment: { name: 'ssr' } }),
 		tailwindcss(),
 		mdx({
-			remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
+			mdxExtensions: ['.md', '.mdx'],
+			remarkPlugins: [
+				remarkGfm,
+				remarkFrontmatter,
+				remarkObsidian,
+				remarkMdxFrontmatter,
+			],
 			rehypePlugins: [
 				rehypeHighlight,
 				rehypeSlug,
