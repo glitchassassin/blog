@@ -15,6 +15,12 @@ export function cleanMDXContent(content: string): string {
 			.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
 			// Remove markdown images
 			.replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+			// Keep Obsidian wikilink labels and aliases searchable
+			.replace(/!?\[\[([^|\]#]+)(?:#[^|\]]*)?(?:\|([^\]]+))?\]\]/g, '$2 $1')
+			// Remove Obsidian block references from prose
+			.replace(/(^|\s)\^[A-Za-z0-9_-]+(?=\s|$)/g, '$1')
+			// Index Obsidian-style tags without the leading hash
+			.replace(/(^|\s)#([A-Za-z][\w/-]*)/g, '$1$2')
 			// Remove markdown headers
 			.replace(/^#{1,6}\s+/gm, '')
 			// Remove markdown emphasis

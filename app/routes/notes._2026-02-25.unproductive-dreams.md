@@ -63,16 +63,16 @@ function buildPrompt(scene: z.infer<typeof sceneDescriptionSchema>): string {
 Then the prompt and a couple of reference images (themed for the specific
 project) are piped into Seedream to generate an image.
 
-<div style={{ display: 'flex' }}>
+<div style="display: flex;">
  <img
   alt="reference image of a man standing, anime style"
   src="/assets/images/dreaming-2.png"
-  style={{ width: '50%' }}
+  style="width: 50%;"
  />
  <img
   alt="reference image of a small office with a bookshelf, whiteboard, and desk"
   src="/assets/images/dreaming-3.png"
-  style={{ width: '50%' }}
+  style="width: 50%;"
  />
 </div>
 
