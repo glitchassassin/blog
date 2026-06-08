@@ -8,8 +8,7 @@
 		"workers/**/*",
 		"worker-configuration.d.ts",
 		"reset.d.ts",
-		"env.d.ts",
-		"plugins"
+		"env.d.ts"
 	],
 	"compilerOptions": {
 		"composite": true,

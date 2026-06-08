@@ -1,4 +1,4 @@
-import type { NoteMetadata } from 'plugins/vite-notes-metadata'
+import type { NoteMetadata } from '#app/types/metadata'
 import { Outlet } from 'react-router'
 import { notesBySlug, getRelatedNotes } from 'virtual:notes-metadata'
 import { Comments } from '#app/components/Comments'
