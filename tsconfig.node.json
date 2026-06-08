@@ -5,6 +5,7 @@
 		"react-router.config.ts",
 		"playwright.config.ts",
 		"e2e/**/*",
+		"app/types/**/*.ts",
 		"plugins/**/*.ts",
 		"scripts/**/*.ts"
 	],

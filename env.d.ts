@@ -5,8 +5,8 @@ declare module '*.md' {
 }
 
 declare module 'virtual:notes-metadata' {
-	type NoteMetadata = import('plugins/vite-notes-metadata').NoteMetadata
-	type SearchIndexEntry = import('plugins/vite-notes-metadata').SearchIndexEntry
+	type NoteMetadata = import('#app/types/metadata').NoteMetadata
+	type SearchIndexEntry = import('#app/types/metadata').SearchIndexEntry
 
 	// Exported data
 	export const notes: NoteMetadata[]
@@ -27,8 +27,7 @@ declare module 'virtual:notes-metadata' {
 }
 
 declare module 'virtual:portfolio-metadata' {
-	type PortfolioMetadata =
-		import('#app/plugins/vite-portfolio-metadata').PortfolioMetadata
+	type PortfolioMetadata = import('#app/types/metadata').PortfolioMetadata
 
 	// Exported data
 	export const portfolio: PortfolioMetadata[]

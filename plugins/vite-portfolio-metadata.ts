@@ -3,6 +3,20 @@ import path from 'path'
 import { glob } from 'glob'
 import matter from 'gray-matter'
 import { z } from 'zod'
+import type { PortfolioMetadata } from '../app/types/metadata'
+
+type SchemaMatchesType<Schema extends z.ZodTypeAny, Expected> =
+	z.infer<Schema> extends Expected
+		? Expected extends z.infer<Schema>
+			? Exclude<keyof z.infer<Schema>, keyof Expected> extends never
+				? Exclude<keyof Expected, keyof z.infer<Schema>> extends never
+					? true
+					: false
+				: false
+			: false
+		: false
+
+type ExpectSchemaMatch<T extends true> = T
 
 // Zod schema for frontmatter validation (no categories or tags)
 const FrontmatterSchema = z
@@ -12,7 +26,7 @@ const FrontmatterSchema = z
 		excerpt: z.string().optional(),
 		featureImage: z.string().optional(),
 	})
-	.passthrough() // Allow additional properties
+	.strict()
 
 // Zod schema for the complete portfolio metadata (including computed fields)
 const PortfolioMetadataSchema = FrontmatterSchema.extend({
@@ -20,8 +34,9 @@ const PortfolioMetadataSchema = FrontmatterSchema.extend({
 	filePath: z.string(),
 })
 
-// Generate TypeScript types from Zod schemas
-export type PortfolioMetadata = z.infer<typeof PortfolioMetadataSchema>
+type _PortfolioMetadataSchemaMatchesType = ExpectSchemaMatch<
+	SchemaMatchesType<typeof PortfolioMetadataSchema, PortfolioMetadata>
+>
 
 export function portfolioMetadataPlugin() {
 	const virtualModuleId = 'virtual:portfolio-metadata'

@@ -1,4 +1,4 @@
-import type { PortfolioMetadata } from 'plugins/vite-portfolio-metadata'
+import type { PortfolioMetadata } from '#app/types/metadata'
 import { Outlet } from 'react-router'
 import { portfolioBySlug } from 'virtual:portfolio-metadata'
 import { Footer } from '#app/components/Footer'

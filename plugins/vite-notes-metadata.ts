@@ -3,8 +3,22 @@ import path from 'path'
 import { glob } from 'glob'
 import matter from 'gray-matter'
 import { z } from 'zod'
+import type { NoteMetadata, SearchIndexEntry } from '../app/types/metadata'
 import { cleanMDXContent } from './utils/mdx-content'
 import { calculateReadingTime } from './utils/reading-time'
+
+type SchemaMatchesType<Schema extends z.ZodTypeAny, Expected> =
+	z.infer<Schema> extends Expected
+		? Expected extends z.infer<Schema>
+			? Exclude<keyof z.infer<Schema>, keyof Expected> extends never
+				? Exclude<keyof Expected, keyof z.infer<Schema>> extends never
+					? true
+					: false
+				: false
+			: false
+		: false
+
+type ExpectSchemaMatch<T extends true> = T
 
 // Zod schema for frontmatter validation
 const FrontmatterSchema = z
@@ -17,7 +31,7 @@ const FrontmatterSchema = z
 		featureImage: z.string().optional(),
 		draft: z.boolean().optional(),
 	})
-	.passthrough() // Allow additional properties
+	.strict()
 
 // Zod schema for the complete note metadata (including computed fields)
 const NoteMetadataSchema = FrontmatterSchema.extend({
@@ -31,9 +45,13 @@ const SearchIndexEntrySchema = NoteMetadataSchema.extend({
 	content: z.string(),
 })
 
-// Generate TypeScript types from Zod schemas
-export type NoteMetadata = z.infer<typeof NoteMetadataSchema>
-export type SearchIndexEntry = z.infer<typeof SearchIndexEntrySchema>
+type _NoteMetadataSchemaMatchesType = ExpectSchemaMatch<
+	SchemaMatchesType<typeof NoteMetadataSchema, NoteMetadata>
+>
+
+type _SearchIndexEntrySchemaMatchesType = ExpectSchemaMatch<
+	SchemaMatchesType<typeof SearchIndexEntrySchema, SearchIndexEntry>
+>
 
 export function notesMetadataPlugin() {
 	const virtualModuleId = 'virtual:notes-metadata'
