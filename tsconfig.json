@@ -4,6 +4,7 @@
 		{ "path": "./tsconfig.node.json" },
 		{ "path": "./tsconfig.cloudflare.json" }
 	],
+	"exclude": [".obsidian"],
 	"compilerOptions": {
 		"checkJs": true,
 		"verbatimModuleSyntax": true,

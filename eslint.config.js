@@ -5,6 +5,7 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
 	{
 		ignores: [
+			'.obsidian/**',
 			'.react-router/**',
 			'.wrangler/**',
 			'build/**',

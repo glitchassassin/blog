@@ -2,6 +2,7 @@
 node_modules/
 
 # Build outputs
+/.obsidian/
 /.react-router/
 /.wrangler/
 /playwright-report/
