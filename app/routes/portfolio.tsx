@@ -6,12 +6,12 @@ import { MDXContent } from '#app/components/mdx/MDXContent'
 import { PageLayout } from '#app/components/PageLayout'
 import { PortfolioHeader } from '#app/components/PortfolioHeader'
 import { SITE_TITLE } from '#app/data'
+import { getRoutePathname } from '#app/utils/misc'
 import { generateSEOMeta } from '#app/utils/seo'
 import type { Route } from './+types/portfolio'
 
 export async function loader({ request }: Route.LoaderArgs) {
-	const url = new URL(request.url)
-	const pathSegments = url.pathname.split('/')
+	const pathSegments = getRoutePathname(request).split('/')
 	const portfolioIndex = pathSegments.indexOf('portfolio')
 
 	let portfolioMetadata: PortfolioMetadata | null = null
@@ -32,19 +32,19 @@ export async function loader({ request }: Route.LoaderArgs) {
 	}
 }
 
-export function meta({ data, location, matches }: Route.MetaArgs) {
-	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+export function meta({ loaderData, location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].loaderData.domainUrl ?? 'https://jonwinsley.com'
 	const url = domainUrl + location.pathname
 
 	return generateSEOMeta({
-		title: data?.portfolioMetadata?.title
-			? `${data.portfolioMetadata.title} | Portfolio | ${SITE_TITLE}`
+		title: loaderData?.portfolioMetadata?.title
+			? `${loaderData.portfolioMetadata.title} | Portfolio | ${SITE_TITLE}`
 			: `Portfolio | ${SITE_TITLE}`,
 		description:
-			data?.portfolioMetadata?.excerpt || 'Portfolio project by Jon Winsley',
+			loaderData?.portfolioMetadata?.excerpt || 'Portfolio project by Jon Winsley',
 		url,
 		type: 'article',
-		image: data?.portfolioMetadata?.featureImage,
+		image: loaderData?.portfolioMetadata?.featureImage,
 	})
 }
 

@@ -21,7 +21,7 @@ import type { Route } from './+types/tags.$tag'
 
 export function meta({ params, location, matches }: Route.MetaArgs) {
 	const tagName = tagSlugToLabel[params.tag] ?? params.tag
-	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const domainUrl = matches[0].loaderData.domainUrl ?? 'https://jonwinsley.com'
 	const url = domainUrl + location.pathname
 
 	return generateSEOMeta({

@@ -1,13 +1,5 @@
-import { createRequestHandler } from 'react-router'
-
-declare module 'react-router' {
-	export interface AppLoadContext {
-		cloudflare: {
-			env: Env
-			ctx: ExecutionContext
-		}
-	}
-}
+import { RouterContextProvider, createRequestHandler } from 'react-router'
+import { cloudflareContext } from '#app/context'
 
 const requestHandler = createRequestHandler(
 	() => import('virtual:react-router/server-build'),
@@ -25,9 +17,10 @@ export default {
 			return Response.redirect(url.toString(), 301)
 		}
 
-		const response = await requestHandler(request, {
-			cloudflare: { env, ctx },
-		})
+		const loadContext = new RouterContextProvider()
+		loadContext.set(cloudflareContext, { env, ctx })
+
+		const response = await requestHandler(request, loadContext)
 
 		// Add HSTS header for HTTPS-only enforcement (except in development)
 		const headers = new Headers(response.headers)
