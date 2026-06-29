@@ -9,7 +9,7 @@ import { slugify } from '#app/utils/slugify'
 import type { Route } from './+types/categories._index'
 
 export function meta({ location, matches }: Route.MetaArgs) {
-	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const domainUrl = matches[0].loaderData.domainUrl ?? 'https://jonwinsley.com'
 	const url = domainUrl + location.pathname
 
 	return generateSEOMeta({

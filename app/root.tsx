@@ -23,7 +23,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 	}
 }
 
-export const meta: Route.MetaFunction = ({ data }) => [
+export const meta: Route.MetaFunction = ({ loaderData }) => [
 	{ title: SITE_TITLE },
 	{
 		name: 'description',
@@ -36,7 +36,7 @@ export const meta: Route.MetaFunction = ({ data }) => [
 		content: 'The observations and experiments of Jon Winsley',
 	},
 	{ property: 'og:type', content: 'website' },
-	{ property: 'og:url', content: data?.domainUrl },
+	{ property: 'og:url', content: loaderData?.domainUrl },
 	{ property: 'og:site_name', content: SITE_TITLE },
 	{ property: 'og:locale', content: 'en_US' },
 

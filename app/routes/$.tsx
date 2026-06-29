@@ -29,7 +29,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function meta({ location, matches }: Route.MetaArgs) {
-	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const domainUrl = matches[0].loaderData.domainUrl ?? 'https://jonwinsley.com'
 	const url = domainUrl + location.pathname
 
 	return generateSEOMeta({

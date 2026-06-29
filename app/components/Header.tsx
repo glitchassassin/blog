@@ -1,3 +1,4 @@
+import { Search } from 'lucide-react'
 import { Link, Form, useSearchParams, useNavigation } from 'react-router'
 import { SITE_TITLE } from '#app/data'
 
@@ -113,22 +114,6 @@ export function Header() {
 						<label htmlFor="search-input" className="sr-only">
 							Search blog posts
 						</label>
-						<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-							<svg
-								className="h-4 w-4 text-amber-600 dark:text-amber-400"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-								aria-hidden="true"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-								/>
-							</svg>
-						</div>
 						<input
 							id="search-input"
 							type="search"
@@ -136,8 +121,16 @@ export function Header() {
 							defaultValue={currentQuery}
 							placeholder="Search..."
 							disabled={isNavigating}
-							className="w-full rounded-md border border-amber-300 bg-amber-100/70 py-2 pr-4 pl-10 text-sm focus:border-transparent focus:outline-2 focus:outline-amber-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-stone-200 dark:placeholder-stone-400 dark:focus:outline-amber-400"
+							className="w-full rounded-md border border-amber-300 bg-amber-100/70 py-2 pr-10 pl-4 text-sm focus:border-transparent focus:outline-2 focus:outline-amber-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-stone-200 dark:placeholder-stone-400 dark:focus:outline-amber-400"
 						/>
+						<button
+							type="submit"
+							aria-label="Submit search"
+							disabled={isNavigating}
+							className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-3 text-amber-600 hover:text-amber-900 focus:outline-2 focus:outline-offset-2 focus:outline-amber-500 disabled:cursor-not-allowed disabled:opacity-50 dark:text-amber-400 dark:hover:text-amber-100 dark:focus:outline-amber-400"
+						>
+							<Search className="h-4 w-4" aria-hidden="true" />
+						</button>
 					</Form>
 				</div>
 			</div>

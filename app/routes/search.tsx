@@ -10,7 +10,7 @@ import { generateSEOMeta } from '#app/utils/seo'
 import type {Route} from './+types/search';
 
 export function meta({ location, matches }: Route.MetaArgs) {
-	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const domainUrl = matches[0].loaderData.domainUrl ?? 'https://jonwinsley.com'
 	const url = domainUrl + location.pathname
 	const searchParams = new URLSearchParams(location.search)
 	const query = searchParams.get('q') || ''

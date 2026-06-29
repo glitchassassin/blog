@@ -24,7 +24,7 @@ import type { Route } from './+types/categories.$category'
 
 export function meta({ params, location, matches }: Route.MetaArgs) {
 	const categoryName = categorySlugToLabel[params.category] ?? params.category
-	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+	const domainUrl = matches[0].loaderData.domainUrl ?? 'https://jonwinsley.com'
 	const url = domainUrl + location.pathname
 
 	return generateSEOMeta({

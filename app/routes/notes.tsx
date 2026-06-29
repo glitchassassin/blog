@@ -8,12 +8,12 @@ import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
 import { RelatedNotes } from '#app/components/RelatedNotes'
 import { SITE_DESCRIPTION, SITE_TITLE } from '#app/data'
+import { getRoutePathname } from '#app/utils/misc'
 import { generateSEOMeta } from '#app/utils/seo'
 import type { Route } from './+types/notes'
 
 export async function loader({ request }: Route.LoaderArgs) {
-	const url = new URL(request.url)
-	const pathSegments = url.pathname.split('/')
+	const pathSegments = getRoutePathname(request).split('/')
 	const notesIndex = pathSegments.indexOf('notes')
 
 	let noteMetadata: NoteMetadata | null = null
@@ -36,22 +36,22 @@ export async function loader({ request }: Route.LoaderArgs) {
 	}
 }
 
-export function meta({ data, location, matches }: Route.MetaArgs) {
-	const domainUrl = matches[0].data.domainUrl ?? 'https://jonwinsley.com'
+export function meta({ loaderData, location, matches }: Route.MetaArgs) {
+	const domainUrl = matches[0].loaderData.domainUrl ?? 'https://jonwinsley.com'
 	const url = domainUrl + location.pathname
 
 	return generateSEOMeta({
-		title: data?.noteMetadata?.title
-			? `${data.noteMetadata.title} | ${SITE_TITLE}`
+		title: loaderData?.noteMetadata?.title
+			? `${loaderData.noteMetadata.title} | ${SITE_TITLE}`
 			: SITE_TITLE,
-		description: data?.noteMetadata?.excerpt || SITE_DESCRIPTION,
+		description: loaderData?.noteMetadata?.excerpt || SITE_DESCRIPTION,
 		url,
 		type: 'article',
-		image: data?.noteMetadata?.featureImage,
-		publishedTime: data?.noteMetadata?.date
-			? new Date(data.noteMetadata.date).toISOString()
+		image: loaderData?.noteMetadata?.featureImage,
+		publishedTime: loaderData?.noteMetadata?.date
+			? new Date(loaderData.noteMetadata.date).toISOString()
 			: undefined,
-		tags: data?.noteMetadata?.tags,
+		tags: loaderData?.noteMetadata?.tags,
 	})
 }
 
