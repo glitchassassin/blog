@@ -53,18 +53,17 @@ export const meta: Route.MetaFunction = ({ loaderData }) => [
 	{ name: 'author', content: 'Jon Winsley' },
 	{ name: 'robots', content: 'index, follow' },
 	{ name: 'googlebot', content: 'index, follow' },
+]
 
-	// RSS feed
+export const links: Route.LinksFunction = () => [
+	// RSS feed autodiscovery
 	{
-		tagName: 'link',
 		rel: 'alternate',
 		type: 'application/rss+xml',
 		title: `${SITE_TITLE} RSS Feed`,
 		href: '/rss.xml',
 	},
-]
 
-export const links: Route.LinksFunction = () => [
 	// Standard favicon
 	{ rel: 'icon', href: '/assets/favicon.ico' },
 

@@ -131,6 +131,16 @@ test.describe('Portfolio', () => {
 })
 
 test.describe('RSS Feed', () => {
+	test('should advertise the feed from the homepage', async ({ page }) => {
+		await page.goto('/')
+
+		const feedLink = page.locator(
+			'head link[rel="alternate"][type="application/rss+xml"]',
+		)
+		await expect(feedLink).toHaveAttribute('href', '/rss.xml')
+		await expect(feedLink).toHaveAttribute('title', 'Field Journal RSS Feed')
+	})
+
 	test('should serve RSS feed with valid XML and content', async ({
 		request,
 	}) => {
