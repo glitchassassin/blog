@@ -73,7 +73,7 @@ function loadNoteLookup() {
 
 		notes.set(normalizeLookupKey(slug), note)
 		notes.set(normalizeLookupKey(title), note)
-		notes.set(normalizeLookupKey(path.basename(slug)), note)
+		notes.set(normalizeLookupKey(filename), note)
 	}
 
 	return notes
