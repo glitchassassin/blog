@@ -4,6 +4,7 @@ import { notesBySlug, getRelatedNotes } from 'virtual:notes-metadata'
 import { Comments } from '#app/components/Comments'
 import { Footer } from '#app/components/Footer'
 import { MDXContent } from '#app/components/mdx/MDXContent'
+import { NoteFeatureImage } from '#app/components/NoteFeatureImage'
 import { NoteHeader } from '#app/components/NoteHeader'
 import { PageLayout } from '#app/components/PageLayout'
 import { RelatedNotes } from '#app/components/RelatedNotes'
@@ -63,6 +64,8 @@ export default function NotesLayout({
 			<NoteHeader note={noteMetadata} />
 
 			<main className="mx-auto max-w-4xl px-4 py-4">
+				<NoteFeatureImage note={noteMetadata} />
+
 				<article className="prose prose-lg dark:prose-invert mx-auto">
 					<MDXContent>
 						<Outlet />

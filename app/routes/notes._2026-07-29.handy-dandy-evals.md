@@ -4,6 +4,9 @@ date: July 29, 2026
 excerpt: Fine-tuning the tools that I work with to fit me better, based on data that I have collected about myself, is a very interesting practice. And it's amazingly accessible today in a way that it never has been before.
 category: productivity
 tags: []
+featureImage: /assets/images/handy-dandy-evals.png
+featureImageDark: /assets/images/handy-dandy-evals-dark.png
+featureImageAlt: A hand grading a paper marked B, framed by poppies and wildflowers.
 draft: false
 ---
 

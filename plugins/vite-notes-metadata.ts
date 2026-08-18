@@ -29,6 +29,8 @@ const FrontmatterSchema = z
 		excerpt: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		featureImage: z.string().optional(),
+		featureImageDark: z.string().optional(),
+		featureImageAlt: z.string().optional(),
 		draft: z.boolean().optional(),
 	})
 	.strict()

@@ -5,6 +5,8 @@ export interface NoteMetadata {
 	excerpt?: string
 	tags?: string[]
 	featureImage?: string
+	featureImageDark?: string
+	featureImageAlt?: string
 	draft?: boolean
 	slug: string
 	filePath: string
